@@ -1114,13 +1114,29 @@ input:focus {
 }
 
 @media (min-width: 901px) {
+    .container {
+        max-width: 1400px;
+        /* Give more total room */
+    }
+
     .app-wrapper {
         display: flex;
         flex-direction: row;
         align-items: flex-start;
+        flex-wrap: nowrap;
+        /* Force side-by-side */
+    }
+
+    .calculator-card {
+        max-width: 900px;
+        /* Prevent it from taking too much horizontal space */
+        flex: 1;
     }
 
     .saved-projects-sidebar {
+        width: 350px;
+        flex-shrink: 0;
+        /* Don't let the sidebar shrink */
         margin-left: 24px;
     }
 
