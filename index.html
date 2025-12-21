@@ -1,0 +1,1124 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Calculateur immobilier gratuit : simulez vos crédits, rentabilité locative, capacité d'emprunt, aides d'État et impôts. Outil complet pour vos projets immobiliers.">
+    <meta name="keywords"
+        content="calculateur immobilier, simulation crédit, rentabilité locative, capacité emprunt, investissement immobilier">
+    <title>Calculateur Immobilier Premium - Simulez vos projets</title>
+    <link rel="icon" type="image/svg+xml"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏠</text></svg>">
+    <link rel="stylesheet" href="src/css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Chart.js for graphs -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+
+    <!-- jsPDF for PDF export -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <!-- Force Dark Theme Script -->
+    <script>
+        (function () {
+            // Force dark theme immediately
+            try {
+                localStorage.setItem('theme-preference', 'dark');
+                document.documentElement.setAttribute('data-theme', 'dark');
+            } catch (e) {
+                console.warn('Unable to access localStorage', e);
+            }
+        })();
+    </script>
+</head>
+
+<body>
+    <!-- Theme Toggle Button -->
+    <div class="theme-toggle">
+        <button id="theme-toggle-btn" aria-label="Changer le thème (clair/sombre)" title="Changer le thème">
+            <svg class="sun-icon" width="20" height="20" viewBox="0 0 20 20" fill="none"
+                xmlns="http://www.w3.org/2000/svg">
+                <circle cx="10" cy="10" r="4" fill="currentColor" />
+                <path
+                    d="M10 0v3M10 17v3M20 10h-3M3 10H0M16.36 16.36l-2.12-2.12M5.76 5.76L3.64 3.64M16.36 3.64l-2.12 2.12M5.76 14.24l-2.12 2.12"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+            </svg>
+            <svg class="moon-icon hidden" width="20" height="20" viewBox="0 0 20 20" fill="none"
+                xmlns="http://www.w3.org/2000/svg">
+                <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" fill="currentColor" />
+            </svg>
+        </button>
+    </div>
+
+    <div class="background-blobs">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+
+    <main class="container">
+        <div class="app-wrapper">
+            <button id="mobile-menu-toggle" class="mobile-menu-toggle" aria-label="Ouvrir le menu des dossiers">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+            </button>
+            <div id="sidebar-overlay" class="sidebar-overlay"></div>
+            <div class="calculator-card">
+                <header>
+                    <div class="header-nav">
+                        <div>
+                            <h1>Outils Immobiliers</h1>
+                            <p>Vos calculs financiers en un instant</p>
+                        </div>
+                        <div style="display: flex; flex-direction: column; align-items: flex-start; gap: 8px;">
+                            <div style="display: flex; gap: 8px;">
+                                <a href="aides.html" class="nav-link-btn"
+                                    aria-label="Accéder à la page des aides de l'État">Aides de l'État</a>
+                                <a href="impots.html" class="nav-link-btn"
+                                    aria-label="Accéder au simulateur d'impôts">Estimer ses impôts</a>
+                                <a href="travaux.html" class="nav-link-btn"
+                                    aria-label="Accéder au simulateur de travaux">Estimer mes travaux</a>
+                                <a href="comparateur.html" class="nav-link-btn"
+                                    aria-label="Comparer vos projets">Comparateur</a>
+                            </div>
+                            <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                                <a href="guide.html" class="nav-link-btn"
+                                    style="background: rgba(52, 152, 219, 0.1); border-color: var(--info-color); color: var(--info-color);"
+                                    aria-label="Consulter le guide débutant">🎓 Guide</a>
+                                <a href="glossaire.html" class="nav-link-btn"
+                                    style="background: rgba(245, 158, 11, 0.1); border-color: var(--warning-color); color: var(--warning-color);"
+                                    aria-label="Consulter le glossaire des termes financiers">📚 Glossaire</a>
+
+                                <div class="disclaimer disclaimer-clickable"
+                                    data-full-text="Simulations indicatives - Les résultats sont fournis à titre informatif. Pour un conseil personnalisé, consultez un professionnel."
+                                    title="Cliquez pour plus d'informations"
+                                    onclick="showDisclaimerTooltip(this, event)">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" />
+                                        <path d="M12 8V12M12 16H12.01" stroke="currentColor" stroke-width="2"
+                                            stroke-linecap="round" />
+                                    </svg>
+                                    <span><strong>Simulations indicatives</strong></span>
+                                </div>
+
+                                <div class="disclaimer disclaimer-clickable"
+                                    style="background: rgba(99, 102, 241, 0.08); border-color: var(--primary-color);"
+                                    data-full-text="Données 2024 - Barèmes fiscaux IR/IS, prélèvements sociaux (17,2%), taux indicatifs. Dernière mise à jour : Décembre 2024. Ces données seront actualisées en 2025."
+                                    title="Cliquez pour plus d'informations"
+                                    onclick="showDisclaimerTooltip(this, event)">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"
+                                            fill="currentColor" />
+                                    </svg>
+                                    <span><strong>Données 2024</strong></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Mode Toggle: Débutant/Avancé -->
+                    <div class="mode-toggle-container">
+                        <label class="mode-toggle-label">
+                            <span class="mode-label-text">Mode Débutant</span>
+                            <input type="checkbox" id="mode-toggle" class="mode-toggle-input"
+                                aria-label="Basculer entre mode débutant et avancé">
+                            <span class="mode-toggle-slider"></span>
+                            <span class="mode-label-text">Mode Avancé</span>
+                        </label>
+                        <p class="mode-description">
+                            <span id="mode-description-text">Interface simplifiée avec valeurs par défaut</span>
+                        </p>
+                    </div>
+                </header>
+
+                <div class="tabs" role="tablist" aria-label="Sélection du type de simulation">
+                    <button class="tab-btn active" data-tab="credit" role="tab" aria-selected="true"
+                        aria-controls="tab-credit">Simulateur Crédit</button>
+                    <button class="tab-btn" data-tab="profitability" role="tab" aria-selected="false"
+                        aria-controls="tab-profitability">Rentabilité</button>
+                    <button class="tab-btn" data-tab="target-price" role="tab" aria-selected="false"
+                        aria-controls="tab-target-price">Prix Cible 🎯</button>
+                    <button class="tab-btn" data-tab="capacity" role="tab" aria-selected="false"
+                        aria-controls="tab-capacity">Capacité d'Emprunt</button>
+                </div>
+
+                <!-- Credit Simulator Tab -->
+                <div id="tab-credit" class="tab-content active">
+                    <form id="loan-form">
+                        <div class="input-group">
+                            <label for="amount">Montant du prêt (€)
+                                <span class="tooltip-wrapper">
+                                    <span class="tooltip-icon">?</span>
+                                    <span class="tooltip-content">Capital emprunté auprès de la banque. N'inclut pas les
+                                        frais de notaire ni l'apport personnel.</span>
+                                </span>
+                            </label>
+                            <div class="input-wrapper">
+                                <input type="number" id="amount" placeholder="Ex: 200000" min="0" step="100" required
+                                    aria-required="true" aria-describedby="amount-help">
+                                <span class="icon" aria-hidden="true">€</span>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <label for="rate">Taux d'intérêt annuel (%)
+                                <span class="tooltip-wrapper">
+                                    <span class="tooltip-icon">?</span>
+                                    <span class="tooltip-content">Taux nominal hors assurance. En 2024 : 3-4% en
+                                        moyenne. Plus le taux est bas, moins vous payez d'intérêts.</span>
+                                </span>
+                            </label>
+                            <div class="input-wrapper">
+                                <input type="number" id="rate" placeholder="Ex: 3.5" min="0" step="0.01" required
+                                    aria-required="true">
+                                <span class="icon" aria-hidden="true">%</span>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <label for="years">Durée (années)</label>
+                            <div class="input-wrapper">
+                                <input type="number" id="years" placeholder="Ex: 20" min="1" step="1" required
+                                    aria-required="true">
+                                <span class="icon" aria-hidden="true">Ans</span>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="calculate-btn" aria-label="Calculer les mensualités du crédit">
+                            Calculer mes mensualités
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                        </button>
+                    </form>
+
+                    <div id="results" class="results-container hidden">
+                        <div class="result-item highlight">
+                            <span class="label">Mensualité estimée</span>
+                            <span class="value" id="monthly-payment">0.00 €</span>
+                        </div>
+                        <div class="result-details">
+                            <div class="detail-item">
+                                <span class="label">Coût total du crédit
+                                    <span class="tooltip-wrapper" style="display:inline-block; margin-left:4px;">
+                                        <span class="tooltip-icon"
+                                            style="width:14px; height:14px; font-size:10px;">?</span>
+                                        <span class="tooltip-content">Montant emprunté + Intérêts + Assurance</span>
+                                    </span>
+                                </span>
+                                <span class="value" id="total-payment">0.00 €</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="label">Total des intérêts</span>
+                                <span class="value" id="total-interest">0.00 €</span>
+                            </div>
+                        </div>
+
+                        <!-- Action buttons grouped together -->
+                        <div class="action-buttons-group">
+                            <button id="save-credit" class="save-btn"
+                                aria-label="Sauvegarder la simulation de crédit dans le dossier">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M19 21H5C4.44772 21 4 20.5523 4 20V4C4 3.44772 4.44772 3 5 3H16L20 7V20C20 20.5523 19.5523 21 19 21Z"
+                                        stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                    <path d="M17 21V13H7V21" stroke="currentColor" stroke-width="2"
+                                        stroke-linecap="round" stroke-linejoin="round" />
+                                    <path d="M7 3V8H15" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                </svg>
+                                Sauvegarder la simulation
+                            </button>
+
+                            <button id="export-credit-pdf" class="save-btn secondary">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M12 16L7 11H10V3H14V11H17L12 16Z" fill="currentColor" />
+                                    <path d="M20 18H4V20H20V18Z" fill="currentColor" />
+                                </svg>
+                                Exporter en PDF
+                            </button>
+
+                            <button id="export-credit-excel" class="save-btn secondary">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M14 2H6C4.9 2 4 2.9 4 4V20C4 21.1 4.9 22 6 22H18C19.1 22 20 21.1 20 20V8L14 2ZM18 20H6V4H13V9H18V20ZM10 19L12 15L14 19H16.5L13.2 14L16.5 9H14L12 13L10 9H7.5L10.8 14L7.5 19H10Z"
+                                        fill="currentColor" />
+                                </svg>
+                                Exporter en Excel
+                            </button>
+
+                            <button onclick="ChartManager.exportChart('credit-chart', 'amortissement')"
+                                class="save-btn secondary">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M12 16L7 11H10V3H14V11H17L12 16Z" fill="currentColor" />
+                                    <path d="M20 18H4V20H20V18Z" fill="currentColor" />
+                                </svg>
+                                Télécharger le graphique
+                            </button>
+                        </div>
+
+                        <!-- Chart -->
+                        <div class="chart-container" style="position: relative; height: 300px; margin-top: 24px;">
+                            <canvas id="credit-chart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Profitability Calculator Tab -->
+                <div id="tab-profitability" class="tab-content">
+                    <form id="profit-form">
+                        <div class="input-group">
+                            <label for="price">Prix d'achat (€)</label>
+                            <div class="input-wrapper">
+                                <input type="number" id="price" placeholder="Ex: 150000" min="0" step="100" required>
+                                <span class="icon">€</span>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <label for="property-type">Type de bien</label>
+                            <select id="property-type" class="form-select">
+                                <option value="old">Ancien</option>
+                                <option value="new">Neuf (VEFA)</option>
+                            </select>
+                            <p class="help-text">Détermine les frais de notaire (7.5% ancien, 2.5% neuf)</p>
+                        </div>
+
+                        <div class="input-group">
+                            <label for="dpe-class">
+                                Classe DPE (Performance Énergétique)
+                                <span class="tooltip-wrapper">
+                                    <span class="tooltip-icon">?</span>
+                                    <span class="tooltip-content">Diagnostic de Performance Énergétique du
+                                        logement</span>
+                                </span>
+                            </label>
+                            <select id="dpe-class" class="form-select">
+                                <option value="">Non renseigné</option>
+                                <option value="A">A - Excellent (≤ 50 kWh/m²/an)</option>
+                                <option value="B">B - Très bon (51-90 kWh/m²/an)</option>
+                                <option value="C">C - Bon (91-150 kWh/m²/an)</option>
+                                <option value="D">D - Correct (151-230 kWh/m²/an)</option>
+                                <option value="E">E - Moyen (231-330 kWh/m²/an)</option>
+                                <option value="F" style="color: var(--warning-color);">F - Mauvais (331-450 kWh/m²/an)
+                                    ⚠️</option>
+                                <option value="G" style="color: var(--error-color);">G - Très mauvais (> 450 kWh/m²/an)
+                                    🚫</option>
+                            </select>
+                            <button type="button" id="dpe-info-btn" class="help-link-btn"
+                                style="margin-top: 8px; padding: 8px 12px; background: rgba(99, 102, 241, 0.1); border: 1px solid var(--primary-color); border-radius: 6px; color: var(--primary-color); cursor: pointer; font-size: 0.9rem;">
+                                ℹ️ Comprendre le DPE et la réglementation
+                            </button>
+                        </div>
+
+                        <!-- Alerte DPE -->
+                        <div id="dpe-alert" class="result-interpretation warning"
+                            style="display: none; margin-top: 0; margin-bottom: 16px;">
+                            <h4 id="dpe-alert-title">⚠️ Attention - Réglementation DPE</h4>
+                            <p id="dpe-alert-message"></p>
+                        </div>
+
+                        <div class="input-group">
+                            <label for="rent">Loyer mensuel (€)
+                                <span class="tooltip-wrapper">
+                                    <span class="tooltip-icon">?</span>
+                                    <span class="tooltip-content">Loyer hors charges perçu chaque mois</span>
+                                </span>
+                            </label>
+                            <div class="input-wrapper">
+                                <input type="number" id="rent" placeholder="Ex: 800" min="0" step="10" required>
+                                <span class="icon">€</span>
+                            </div>
+                        </div>
+
+                        <div class="input-group" data-mode="advanced">
+                            <label for="notary">Frais de notaire (€)
+                                <span class="tooltip-wrapper">
+                                    <span class="tooltip-icon">?</span>
+                                    <span class="tooltip-content">Calculés automatiquement selon le type de bien. Vous
+                                        pouvez modifier manuellement.</span>
+                                </span>
+                            </label>
+                            <div class="input-wrapper">
+                                <input type="number" id="notary" placeholder="Calculé automatiquement" min="0"
+                                    step="100">
+                                <span class="icon">€</span>
+                            </div>
+                            <p class="help-text" id="notary-auto-info"
+                                style="color: var(--info-color); font-size: 0.85rem; margin-top: 4px;"></p>
+                        </div>
+
+                        <div class="input-group" data-mode="advanced">
+                            <label for="works">Travaux (€)</label>
+                            <div class="input-wrapper">
+                                <input type="number" id="works" placeholder="Ex: 5000" min="0" step="100">
+                                <span class="icon">€</span>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <label for="charges">Charges annuelles (€)</label>
+                            <div class="input-wrapper">
+                                <input type="number" id="charges" placeholder="Ex: 1000" min="0" step="10">
+                                <span class="icon">€</span>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <label for="tax">Taxe foncière (€)</label>
+                            <div class="input-wrapper">
+                                <input type="number" id="tax" placeholder="Ex: 800" min="0" step="10">
+                                <span class="icon">€</span>
+                            </div>
+                        </div>
+
+                        <div class="input-group" data-mode="advanced">
+                            <label for="vacancy-rate">
+                                Taux de Vacance Locative (%)
+                                <span class="tooltip-wrapper">
+                                    <span class="tooltip-icon">?</span>
+                                    <span class="tooltip-content">
+                                        Période sans locataire dans l'année.
+                                        Moyenne : Paris 2-3%, Grandes villes 4-5%, Province 6-8%
+                                    </span>
+                                </span>
+                            </label>
+                            <div class="input-wrapper">
+                                <input type="number" id="vacancy-rate" value="5" min="0" max="20" step="0.5">
+                                <span class="icon">%</span>
+                            </div>
+                            <p class="help-text">Par défaut : 5% (moyenne nationale)</p>
+                        </div>
+
+                        <!-- Frais Annexes -->
+                        <div class="input-group" data-mode="advanced">
+                            <label>
+                                Frais annexes
+                                <span class="tooltip-wrapper">
+                                    <span class="tooltip-icon">?</span>
+                                    <span class="tooltip-content">Frais supplémentaires liés à l'investissement</span>
+                                </span>
+                            </label>
+                            <div
+                                style="display: flex; flex-direction: column; gap: 12px; padding: 12px; background: rgba(15, 23, 42, 0.4); border-radius: 8px;">
+                                <div style="display: flex; align-items: center; gap: 10px;">
+                                    <input type="checkbox" id="has-agency" checked style="width: auto; margin: 0;">
+                                    <label for="has-agency" style="margin: 0; cursor: pointer;">
+                                        Frais d'agence (5% du prix)
+                                    </label>
+                                </div>
+                                <div style="display: flex; align-items: center; gap: 10px;">
+                                    <input type="checkbox" id="has-management" style="width: auto; margin: 0;">
+                                    <label for="has-management" style="margin: 0; cursor: pointer;">
+                                        Gestion locative (8% des loyers)
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Récapitulatif des frais -->
+                        <div id="fees-summary" class="fees-summary" data-mode="advanced"
+                            style="display: none; background: rgba(99, 102, 241, 0.05); padding: 16px; border-radius: 12px; border: 1px solid rgba(99, 102, 241, 0.2);">
+                            <h4 style="margin-bottom: 12px; color: var(--text-main); font-size: 0.95rem;">💰
+                                Récapitulatif des frais</h4>
+                            <div id="fees-breakdown" style="display: grid; gap: 8px; font-size: 0.85rem;">
+                                <!-- Rempli dynamiquement par JS -->
+                            </div>
+                        </div>
+
+                        <button type="submit" class="calculate-btn">
+                            Calculer la rentabilité
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 5V19M5 12H19" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                            </svg>
+                        </button>
+                    </form>
+
+                    <div id="profit-results" class="results-container hidden">
+                        <div class="result-details" style="margin-bottom: 16px;">
+                            <div class="result-item highlight" style="flex: 1;">
+                                <span class="label">Rentabilité Brute
+                                    <span class="tooltip-wrapper" style="display:inline-block; margin-left:4px;">
+                                        <span class="tooltip-icon"
+                                            style="width:14px; height:14px; font-size:10px;">?</span>
+                                        <span class="tooltip-content">(Loyer annuel / Prix total) × 100. Ne tient pas
+                                            compte des charges. <a href="glossaire.html#rentabilite-brute"
+                                                style="color: var(--warning-color);">En savoir plus</a></span>
+                                    </span>
+                                </span>
+                                <span class="value" id="gross-yield">0.00 %</span>
+                            </div>
+                            <div class="result-item highlight" style="flex: 1;">
+                                <span class="label">Rentabilité Nette
+                                    <span class="tooltip-wrapper" style="display:inline-block; margin-left:4px;">
+                                        <span class="tooltip-icon"
+                                            style="width:14px; height:14px; font-size:10px;">?</span>
+                                        <span class="tooltip-content">Rendement réel après déduction des charges, taxe
+                                            foncière et vacance locative (avant impôts). C'est le vrai indicateur de
+                                            rentabilité. <a href="glossaire.html#rentabilite-nette"
+                                                style="color: var(--warning-color);">En savoir plus</a></span>
+                                    </span>
+                                </span>
+                                <span class="value" id="net-yield">0.00 %</span>
+                            </div>
+                            <div class="result-item highlight"
+                                style="flex: 1; border-color: var(--info-color); background: rgba(52, 152, 219, 0.1);">
+                                <span class="label">TRI (10 ans)
+                                    <span class="tooltip-wrapper" style="display:inline-block; margin-left:4px;">
+                                        <span class="tooltip-icon"
+                                            style="width:14px; height:14px; font-size:10px;">?</span>
+                                        <span class="tooltip-content">Taux de Rentabilité Interne : Le rendement annuel
+                                            réel de votre investissement en tenant compte de l'apport, des loyers et de
+                                            la revente. > 6% = bon investissement. <a href="glossaire.html#tri"
+                                                style="color: var(--warning-color);">En savoir plus</a></span>
+                                    </span>
+                                </span>
+                                <span class="value" id="tri-value" style="color: var(--info-color);">0.00 %</span>
+                            </div>
+                        </div>
+
+                        <div class="result-details">
+                            <div class="detail-item">
+                                <span class="label">Coût Total Projet</span>
+                                <span class="value" id="total-project">0.00 €</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="label">Cashflow Brut / mois
+                                    <span class="tooltip-wrapper" style="display:inline-block; margin-left:4px;">
+                                        <span class="tooltip-icon"
+                                            style="width:14px; height:14px; font-size:10px;">?</span>
+                                        <span class="tooltip-content">Ce qu'il reste dans votre poche chaque mois (Loyer
+                                            - Crédit - Charges)</span>
+                                    </span>
+                                </span>
+                                <span class="value" id="cashflow-gross">0.00 €</span>
+                            </div>
+                        </div>
+
+
+                        <!-- Action buttons grouped together -->
+                        <div class="action-buttons-group">
+                            <button id="save-profit" class="save-btn">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M19 21H5C4.44772 21 4 20.5523 4 20V4C4 3.44772 4.44772 3 5 3H16L20 7V20C20 20.5523 19.5523 21 19 21Z"
+                                        stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                    <path d="M17 21V13H7V21" stroke="currentColor" stroke-width="2"
+                                        stroke-linecap="round" stroke-linejoin="round" />
+                                    <path d="M7 3V8H15" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                </svg>
+                                Sauvegarder la simulation
+                            </button>
+
+                            <button id="export-profit-pdf" class="save-btn secondary">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M12 16L7 11H10V3H14V11H17L12 16Z" fill="currentColor" />
+                                    <path d="M20 18H4V20H20V18Z" fill="currentColor" />
+                                </svg>
+                                Exporter en PDF
+                            </button>
+
+                            <button id="export-profit-excel" class="save-btn secondary">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M14 2H6C4.9 2 4 2.9 4 4V20C4 21.1 4.9 22 6 22H18C19.1 22 20 21.1 20 20V8L14 2ZM18 20H6V4H13V9H18V20ZM10 19L12 15L14 19H16.5L13.2 14L16.5 9H14L12 13L10 9H7.5L10.8 14L7.5 19H10Z"
+                                        fill="currentColor" />
+                                </svg>
+                                Exporter en Excel
+                            </button>
+
+                            <button onclick="ChartManager.exportChart('profit-chart', 'rentabilite')"
+                                class="save-btn secondary">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M12 16L7 11H10V3H14V11H17L12 16Z" fill="currentColor" />
+                                    <path d="M20 18H4V20H20V18Z" fill="currentColor" />
+                                </svg>
+                                Télécharger le graphique
+                            </button>
+                        </div>
+
+                        <!-- Chart -->
+                        <div class="chart-container" style="position: relative; height: 300px; margin-top: 24px;">
+                            <canvas id="profit-chart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Target Price Calculator Tab -->
+                <div id="tab-target-price" class="tab-content">
+                    <div class="calculator-card">
+                        <h2>Calculateur Inversé (Prix Cible)</h2>
+                        <p class="section-desc">Définissez votre rentabilité cible, nous vous disons à quel prix
+                            acheter.</p>
+
+                        <div class="input-group">
+                            <label for="target-yield">Rentabilité Nette Visée (%)</label>
+                            <input type="number" id="target-yield" placeholder="Ex: 10" step="0.1">
+                        </div>
+
+                        <div class="input-group">
+                            <label for="target-rent">Loyer Mensuel Estimé (€)</label>
+                            <input type="number" id="target-rent" placeholder="Ex: 800">
+                        </div>
+
+                        <div class="input-group">
+                            <label for="target-works">Montant Travaux (€)</label>
+                            <input type="number" id="target-works" placeholder="Ex: 15000" value="0">
+                        </div>
+
+                        <div class="input-group">
+                            <label for="target-tax">Taxe Foncière (€)</label>
+                            <input type="number" id="target-tax" placeholder="Ex: 800" value="800">
+                        </div>
+
+                        <div class="input-group">
+                            <label for="target-charges">Charges Copro Annuelles (€)</label>
+                            <input type="number" id="target-charges" placeholder="Ex: 1000" value="1000">
+                        </div>
+
+                        <button id="calculate-target-btn" class="calculate-btn">Calculer le Prix Max</button>
+
+                        <div id="target-results" class="results-container hidden">
+                            <div class="result-item highlight">
+                                <span class="label">Prix d'Achat Max (FAI)</span>
+                                <span class="value" id="res-target-price">0.00 €</span>
+                            </div>
+                            <div class="result-interpretation info">
+                                <h4>💡 Conseil Négociation</h4>
+                                <p id="target-advice">Pour atteindre cette rentabilité, votre offre ne doit pas dépasser
+                                    ce montant (frais de notaire inclus).</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Borrowing Capacity Tab -->
+                <div id="tab-capacity" class="tab-content">
+                    <form id="capacity-form">
+                        <div class="input-group">
+                            <label for="income">Revenus mensuels nets (€)</label>
+                            <div class="input-wrapper">
+                                <input type="number" id="income" placeholder="Ex: 3000" min="0" step="10" required>
+                                <span class="icon">€</span>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <label for="expenses">Charges mensuelles (€)</label>
+                            <div class="input-wrapper">
+                                <input type="number" id="expenses" placeholder="Ex: 500" min="0" step="10">
+                                <span class="icon">€</span>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <label for="capacity-rate">Taux d'intérêt (%)</label>
+                            <div class="input-wrapper">
+                                <input type="number" id="capacity-rate" placeholder="Ex: 4.0" min="0" step="0.01"
+                                    required>
+                                <span class="icon">%</span>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <label for="capacity-years">Durée (années)</label>
+                            <div class="input-wrapper">
+                                <input type="number" id="capacity-years" placeholder="Ex: 25" min="1" step="1" required>
+                                <span class="icon">Ans</span>
+                            </div>
+                        </div>
+
+                        <div class="input-group" data-mode="advanced">
+                            <label for="insurance">
+                                Assurance emprunteur (%)
+                                <span class="tooltip-wrapper">
+                                    <span class="tooltip-icon">?</span>
+                                    <span class="tooltip-content">Taux d'assurance annuel sur le capital emprunté.
+                                        Moyenne : 0.30-0.40%</span>
+                                </span>
+                            </label>
+                            <div class="input-wrapper">
+                                <input type="number" id="insurance" value="0.36" min="0" max="1" step="0.01">
+                                <span class="icon">%</span>
+                            </div>
+                            <p class="help-text">Par défaut : 0.36% (moyenne marché 2024)</p>
+                        </div>
+
+                        <button type="submit" class="calculate-btn">
+                            Calculer ma capacité
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 5V19M5 12H19" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                            </svg>
+                        </button>
+                    </form>
+
+                    <div id="capacity-results" class="results-container hidden">
+                        <div class="result-item highlight">
+                            <span class="label">Capacité d'emprunt</span>
+                            <span class="value" id="total-capacity">0.00 €</span>
+                        </div>
+                        <div class="result-details">
+                            <div class="detail-item">
+                                <span class="label">Mensualité Max</span>
+                                <span class="value" id="max-monthly">0.00 €</span>
+                            </div>
+                        </div>
+                        <button id="save-capacity" class="save-btn">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M19 21H5C4.44772 21 4 20.5523 4 20V4C4 3.44772 4.44772 3 5 3H16L20 7V20C20 20.5523 19.5523 21 19 21Z"
+                                    stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                                <path d="M17 21V13H7V21" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                                <path d="M7 3V8H15" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                            </svg>
+                            Sauvegarder la capacité
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <aside class="saved-projects-sidebar">
+                <div class="sidebar-header">
+                    <h2>Mes Dossiers</h2>
+                    <p>Gérez vos projets immobiliers</p>
+                    <div class="sidebar-controls" style="margin-top: 10px; display: flex; gap: 8px;">
+                        <select id="sort-projects" class="form-select" style="padding: 6px; font-size: 0.85rem;"
+                            aria-label="Trier les dossiers">
+                            <option value="date_desc">Plus récents</option>
+                            <option value="date_asc">Plus anciens</option>
+                            <option value="name_asc">Nom (A-Z)</option>
+                            <option value="name_desc">Nom (Z-A)</option>
+                        </select>
+                    </div>
+                    <button id="new-project-btn" class="new-project-btn"
+                        aria-label="Créer un nouveau dossier de projet">
+                        + Nouveau Dossier
+                    </button>
+                </div>
+                <div id="current-project-display" class="project-badge" style="display:none; margin-bottom: 10px;">
+                    <!-- Current Project Name -->
+                </div>
+                <div id="saved-list" class="saved-list">
+                    <!-- Saved items will be injected here -->
+                    <div class="empty-state">
+                        <p>Aucun projet sauvegardé</p>
+                    </div>
+                </div>
+
+                <!-- Legal Link -->
+                <div class="sidebar-legal-link">
+                    <button id="open-legal-modal" class="legal-link-btn" aria-label="Voir les mentions légales">
+                        ⚖️ Mentions légales
+                    </button>
+                </div>
+            </aside>
+        </div>
+    </main>
+
+    <!-- Legal Modal -->
+    <div id="legal-modal" class="modal hidden">
+        <div class="modal-content modal-legal-content">
+            <button class="close-modal-btn" aria-label="Fermer les mentions légales">&times;</button>
+
+            <h3 class="legal-title">⚖️ Mentions Légales et Conditions d'Utilisation</h3>
+
+            <div class="legal-section">
+                <h4>📋 Nature du Logiciel</h4>
+                <p>Ce calculateur immobilier est fourni à titre informatif et éducatif uniquement. Il s'agit d'un outil
+                    d'aide à la décision et non d'un conseil financier, juridique ou fiscal personnalisé.</p>
+            </div>
+
+            <div class="legal-section">
+                <h4>⚠️ Limitation de Responsabilité</h4>
+                <p><strong>Aucune garantie</strong> : Ce logiciel est fourni "en l'état", sans garantie d'aucune sorte,
+                    expresse ou implicite. L'éditeur ne garantit pas l'exactitude, la fiabilité ou l'exhaustivité des
+                    calculs et informations fournies.</p>
+                <p><strong>Perte de données</strong> : L'éditeur décline toute responsabilité en cas de perte,
+                    corruption ou altération de données, fichiers ou projets sauvegardés. Il est recommandé d'effectuer
+                    des sauvegardes régulières de vos données importantes.</p>
+                <p><strong>Décisions financières</strong> : L'utilisateur est seul responsable des décisions prises sur
+                    la base des résultats fournis par ce logiciel. Consultez toujours un professionnel qualifié avant
+                    toute décision d'investissement.</p>
+            </div>
+
+            <div class="legal-section">
+                <h4>🚫 Usage Autorisé</h4>
+                <p><strong>Usage personnel uniquement</strong> : Ce logiciel est destiné à un usage personnel et non
+                    commercial, sauf autorisation expresse de l'éditeur.</p>
+                <p><strong>Interdiction d'usage non autorisé</strong> : Il est strictement interdit d'utiliser ce
+                    logiciel à l'insu de l'éditeur, de le modifier, de le redistribuer, de le copier ou de l'exploiter
+                    commercialement sans autorisation écrite préalable.</p>
+                <p><strong>Propriété intellectuelle</strong> : Tous les droits de propriété intellectuelle relatifs à ce
+                    logiciel appartiennent à l'éditeur. Toute utilisation non autorisée constitue une violation des
+                    droits d'auteur.</p>
+            </div>
+
+            <div class="legal-section">
+                <h4>🔒 Protection des Données</h4>
+                <p><strong>Stockage local</strong> : Vos données sont stockées localement dans votre navigateur
+                    (localStorage). Elles ne sont ni transmises, ni collectées par l'éditeur.</p>
+                <p><strong>Confidentialité</strong> : L'éditeur ne collecte aucune donnée personnelle via ce logiciel.
+                    Vous êtes responsable de la protection de vos propres données.</p>
+            </div>
+
+            <div class="legal-section">
+                <h4>📅 Mises à Jour et Modifications</h4>
+                <p>L'éditeur se réserve le droit de modifier, suspendre ou interrompre tout ou partie du logiciel à tout
+                    moment, sans préavis. Les données fiscales et taux indicatifs sont mis à jour périodiquement mais
+                    peuvent ne pas refléter les dernières évolutions légales.</p>
+            </div>
+
+            <div class="legal-disclaimer">
+                <strong>⚡ En utilisant ce logiciel, vous acceptez ces conditions dans leur intégralité.</strong>
+                <br>
+                Si vous n'acceptez pas ces termes, veuillez cesser immédiatement d'utiliser le logiciel.
+            </div>
+
+            <div class="legal-copyright">
+                © 2024 Calculateur Immobilier Premium - Tous droits réservés
+            </div>
+        </div>
+    </div>
+
+    <!-- Project Details Modal -->
+    <div id="project-details-modal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modal-project-name">Détails du Dossier</h2>
+                <button class="close-modal-btn" aria-label="Fermer la fenêtre de détails">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="modal-simulation-section" class="modal-section">
+                    <h3>Simulation</h3>
+                    <div class="section-content">
+                        <p class="empty-msg">Aucune simulation enregistrée.</p>
+                        <!-- Content injected via JS -->
+                    </div>
+                </div>
+                <div id="modal-capacity-section" class="modal-section">
+                    <h3>Capacité d'Emprunt</h3>
+                    <div class="section-content">
+                        <p class="empty-msg">Aucune capacité enregistrée.</p>
+                        <!-- Content injected via JS -->
+                    </div>
+                </div>
+                <div id="modal-aides-section" class="modal-section">
+                    <h3>Aides de l'État</h3>
+                    <div class="section-content">
+                        <p class="empty-msg">Aucune recherche d'aides enregistrée.</p>
+                        <div class="tags-container"></div>
+                    </div>
+                </div>
+                <div id="modal-impots-section" class="modal-section">
+                    <h3>Estimation Impôts</h3>
+                    <div class="section-content">
+                        <p class="empty-msg">Aucune estimation fiscale enregistrée.</p>
+                        <div class="tax-details-grid"></div>
+                    </div>
+                </div>
+                <div id="modal-travaux-section" class="modal-section">
+                    <h3>Estimation Travaux</h3>
+                    <div class="section-content">
+                        <p class="empty-msg">Aucune estimation de travaux enregistrée.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Rename Project Modal -->
+    <div id="rename-project-modal" class="modal hidden">
+        <div class="modal-content" style="max-width: 400px;">
+            <div class="modal-header">
+                <h2>Renommer le dossier</h2>
+                <button class="close-modal-btn" aria-label="Fermer">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="input-group">
+                    <label for="rename-input">Nouveau nom</label>
+                    <div class="input-wrapper">
+                        <input type="text" id="rename-input" placeholder="Nom du projet" required>
+                    </div>
+                </div>
+                <div style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px;">
+                    <button class="action-btn outline close-modal-btn" style="width: auto;">Annuler</button>
+                    <button id="save-rename-btn" class="action-btn" style="width: auto;">Enregistrer</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- New Project Modal -->
+    <div id="new-project-modal" class="modal hidden">
+        <div class="modal-content" style="max-width: 400px;">
+            <div class="modal-header">
+                <h2>Nouveau Dossier</h2>
+                <button class="close-modal-btn" aria-label="Fermer">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="input-group">
+                    <label for="new-project-name">Nom du dossier</label>
+                    <div class="input-wrapper">
+                        <input type="text" id="new-project-name" placeholder="Ex: Appartement Lille, Maison Lyon..."
+                            required>
+                    </div>
+                </div>
+                <div style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px;">
+                    <button class="action-btn outline close-modal-btn" style="width: auto;">Annuler</button>
+                    <button id="create-project-confirm-btn" class="action-btn" style="width: auto;">Créer</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- DPE Information Modal -->
+    <div id="dpe-modal" class="modal hidden">
+        <div class="modal-content large-modal">
+            <div class="modal-header">
+                <h2>📊 Comprendre le DPE et la Réglementation</h2>
+                <button class="close-modal-btn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="dpe-section">
+                    <h3>📅 Calendrier d'Interdiction de Location</h3>
+                    <div class="timeline-container">
+                        <div class="timeline-item past">
+                            <div class="date">2023</div>
+                            <div class="content">Gel des loyers pour F et G</div>
+                        </div>
+                        <div class="timeline-item warning">
+                            <div class="date">2025</div>
+                            <div class="content">Interdiction G</div>
+                        </div>
+                        <div class="timeline-item warning">
+                            <div class="date">2028</div>
+                            <div class="content">Interdiction F</div>
+                        </div>
+                        <div class="timeline-item info">
+                            <div class="date">2034</div>
+                            <div class="content">Interdiction E</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dpe-grid">
+                    <div class="dpe-card">
+                        <h3>💰 Coûts de Rénovation Estimés</h3>
+                        <ul>
+                            <li><strong>G → D :</strong> ~25 000 € (Passoire thermique)</li>
+                            <li><strong>F → D :</strong> ~18 000 € (Mauvaise isolation)</li>
+                            <li><strong>E → D :</strong> ~12 000 € (Isolation moyenne)</li>
+                        </ul>
+                        <p class="note">*Estimations pour un appartement de 60m²</p>
+                    </div>
+
+                    <div class="dpe-card">
+                        <h3>🎁 Aides Cumulables</h3>
+                        <ul>
+                            <li>✅ <strong>MaPrimeRénov'</strong> (jusqu'à 90% des travaux)</li>
+                            <li>✅ <strong>Éco-PTZ</strong> (jusqu'à 50 000€ à 0%)</li>
+                            <li>✅ <strong>TVA Réduite</strong> (5.5%)</li>
+                            <li>✅ <strong>CEE</strong> (Certificats Économies Énergie)</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="dpe-alert-box">
+                    <h4>📉 Impact sur la Valeur</h4>
+                    <p>Une "passoire thermique" (F/G) se vend en moyenne <strong>10% à 20% moins cher</strong> qu'un
+                        bien classé D.</p>
+                    <p>💡 <em>Conseil : Utilisez cet argument pour négocier le prix d'achat !</em></p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="action-btn close-modal-btn">Fermer</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Inline Disclaimer Tooltip Script (loads immediately) -->
+    <script>
+        // Global tooltip variable
+        let activeDisclaimerTooltip = null;
+
+        // Show disclaimer tooltip function
+        function showDisclaimerTooltip(element, event) {
+            event.stopPropagation();
+            console.log('showDisclaimerTooltip called'); // Debug log
+
+            // Remove existing tooltip if any
+            if (activeDisclaimerTooltip) {
+                activeDisclaimerTooltip.remove();
+                activeDisclaimerTooltip = null;
+            }
+
+            // Get full text from data attribute
+            const fullText = element.getAttribute('data-full-text');
+            console.log('Full text:', fullText); // Debug log
+            if (!fullText) return;
+
+            // Create tooltip element
+            const tooltip = document.createElement('div');
+            tooltip.className = 'disclaimer-tooltip';
+            tooltip.textContent = fullText;
+
+            // Position tooltip near the disclaimer
+            const rect = element.getBoundingClientRect();
+            tooltip.style.left = rect.left + 'px';
+            tooltip.style.top = (rect.bottom + 8) + 'px';
+
+            // Add to document
+            document.body.appendChild(tooltip);
+            activeDisclaimerTooltip = tooltip;
+            console.log('Tooltip created and added'); // Debug log
+
+            // Auto-adjust if tooltip goes off screen
+            setTimeout(function () {
+                const tooltipRect = tooltip.getBoundingClientRect();
+                if (tooltipRect.right > window.innerWidth) {
+                    tooltip.style.left = (window.innerWidth - tooltipRect.width - 20) + 'px';
+                }
+                if (tooltipRect.bottom > window.innerHeight) {
+                    tooltip.style.top = (rect.top - tooltipRect.height - 8) + 'px';
+                }
+            }, 10);
+        }
+
+        // Click anywhere to close tooltip
+        document.addEventListener('click', function () {
+            if (activeDisclaimerTooltip) {
+                activeDisclaimerTooltip.remove();
+                activeDisclaimerTooltip = null;
+            }
+        });
+
+        // Close on ESC key
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape' && activeDisclaimerTooltip) {
+                activeDisclaimerTooltip.remove();
+                activeDisclaimerTooltip = null;
+            }
+        });
+
+        console.log('Disclaimer tooltip script loaded'); // Debug log
+    </script>
+
+    <!-- Legal Modal Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const legalModal = document.getElementById('legal-modal');
+            const openLegalBtn = document.getElementById('open-legal-modal');
+            const closeLegalBtns = legalModal.querySelectorAll('.close-modal-btn');
+
+            // Open legal modal
+            if (openLegalBtn) {
+                openLegalBtn.addEventListener('click', function () {
+                    legalModal.classList.remove('hidden');
+                });
+            }
+
+            // Close legal modal
+            closeLegalBtns.forEach(function (btn) {
+                btn.addEventListener('click', function () {
+                    legalModal.classList.add('hidden');
+                });
+            });
+
+            // Close on click outside
+            legalModal.addEventListener('click', function (e) {
+                if (e.target === legalModal) {
+                    legalModal.classList.add('hidden');
+                }
+            });
+
+            // Close on Escape key
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape' && !legalModal.classList.contains('hidden')) {
+                    legalModal.classList.add('hidden');
+                }
+            });
+        });
+    </script>
+
+    <!-- Tab Switching Script (inline for reliability) -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            console.log('Inline tab script loading...');
+
+            const tabs = document.querySelectorAll('.tab-btn');
+            const contents = document.querySelectorAll('.tab-content');
+
+            console.log('Found', tabs.length, 'tabs and', contents.length, 'content sections');
+
+            tabs.forEach(function (tab) {
+                tab.addEventListener('click', function () {
+                    console.log('Tab clicked:', tab.dataset.tab);
+
+                    // Remove active from all
+                    tabs.forEach(function (t) {
+                        t.classList.remove('active');
+                        t.setAttribute('aria-selected', 'false');
+                    });
+                    contents.forEach(function (c) {
+                        c.classList.remove('active');
+                    });
+
+                    // Add active to clicked
+                    tab.classList.add('active');
+                    tab.setAttribute('aria-selected', 'true');
+
+                    const targetId = 'tab-' + tab.dataset.tab;
+                    console.log('Activating content:', targetId);
+
+                    const targetContent = document.getElementById(targetId);
+                    if (targetContent) {
+                        targetContent.classList.add('active');
+                        console.log('Success! Activated:', targetId);
+                    } else {
+                        console.error('ERROR: Could not find element with ID:', targetId);
+                    }
+                });
+            });
+
+            console.log('Tab event listeners attached successfully');
+        });
+    </script>
+
+    <!-- ES6 Module Entry Point -->
+    <script type="module" src="src/js/pages/main.js"></script>
+</body>
+
+</html>
+```

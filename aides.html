@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulateur d'Aides de l'État - Calculateur Premium</title>
+    <link rel="stylesheet" href="src/css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <!-- Theme Toggle Button -->
+    <div class="theme-toggle">
+        <button id="theme-toggle-btn" aria-label="Changer le thème (clair/sombre)" title="Changer le thème">
+            <svg class="sun-icon" width="20" height="20" viewBox="0 0 20 20" fill="none"
+                xmlns="http://www.w3.org/2000/svg">
+                <circle cx="10" cy="10" r="4" fill="currentColor" />
+                <path
+                    d="M10 0v3M10 17v3M20 10h-3M3 10H0M16.36 16.36l-2.12-2.12M5.76 5.76L3.64 3.64M16.36 3.64l-2.12 2.12M5.76 14.24l-2.12 2.12"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+            </svg>
+            <svg class="moon-icon hidden" width="20" height="20" viewBox="0 0 20 20" fill="none"
+                xmlns="http://www.w3.org/2000/svg">
+                <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" fill="currentColor" />
+            </svg>
+        </button>
+    </div>
+
+    <div class="background-blobs">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+
+    <main class="container">
+        <div class="app-wrapper">
+            <div class="calculator-card">
+                <header>
+                    <div class="header-nav">
+                        <div>
+                            <h1>Aides de l'État</h1>
+                            <p>Découvrez les dispositifs pour votre projet</p>
+                        </div>
+                        <div style="display: flex; gap: 8px; align-items: center;">
+                            <a href="glossaire.html" class="help-link-btn" style="font-size: 0.85rem;"
+                                aria-label="Consulter le glossaire">📚 Glossaire</a>
+                            <div id="project-header" class="project-badge" style="display: none;">
+                                <!-- Project Name -->
+                            </div>
+                        </div>
+                    </div>
+                    <a href="index.html" class="back-link" aria-label="Retourner au simulateur principal">← Retour au
+                        simulateur</a>
+                </header>
+
+                <div id="questionnaire-container">
+                    <!-- Step 1: Project Type -->
+                    <div class="question-step active" data-step="1">
+                        <div class="question-content-centered">
+                            <h2>Quel est votre type de projet ?</h2>
+                            <p class="question-subtitle">Sélectionnez le type de projet immobilier que vous souhaitez
+                                réaliser</p>
+
+                            <div class="project-type-grid">
+                                <label class="project-type-card">
+                                    <input type="radio" name="projectType" value="purchase" checked>
+                                    <div class="card-content">
+                                        <div class="card-icon">🏠</div>
+                                        <h3>Achat Résidence Principale</h3>
+                                        <p>Acquérir votre logement principal</p>
+                                    </div>
+                                </label>
+
+                                <label class="project-type-card">
+                                    <input type="radio" name="projectType" value="investment">
+                                    <div class="card-content">
+                                        <div class="card-icon">💰</div>
+                                        <h3>Investissement Locatif</h3>
+                                        <p>Investir dans l'immobilier locatif</p>
+                                    </div>
+                                </label>
+
+                                <label class="project-type-card">
+                                    <input type="radio" name="projectType" value="renovation">
+                                    <div class="card-content">
+                                        <div class="card-icon">🔧</div>
+                                        <h3>Travaux / Rénovation</h3>
+                                        <p>Rénover ou améliorer un bien existant</p>
+                                    </div>
+                                </label>
+                            </div>
+
+                            <button class="calculate-btn next-step"
+                                aria-label="Passer à l'étape suivante">Suivant</button>
+                        </div>
+                    </div>
+
+                    <!-- Step 2: Property Details -->
+                    <div class="question-step" data-step="2">
+                        <div class="question-content-centered">
+                            <h2>Détails du bien</h2>
+                            <p class="question-subtitle">Informations sur votre projet immobilier</p>
+
+                            <div class="form-content-max">
+                                <div class="input-group">
+                                    <label>État du bien</label>
+                                    <select id="propertyState" class="form-select">
+                                        <option value="new">Neuf (VEFA)</option>
+                                        <option value="old">Ancien</option>
+                                        <option value="old_works">Ancien avec travaux importants</option>
+                                    </select>
+                                </div>
+
+                                <div class="input-group">
+                                    <label>Êtes-vous primo-accédant ?</label>
+                                    <div class="radio-group-modern">
+                                        <label class="radio-option">
+                                            <input type="radio" name="firstTime" value="yes" checked>
+                                            <span class="radio-label-text">🌟 Oui</span>
+                                        </label>
+                                        <label class="radio-option">
+                                            <input type="radio" name="firstTime" value="no">
+                                            <span class="radio-label-text">❌ Non</span>
+                                        </label>
+                                    </div>
+                                    <p class="help-text">Pas propriétaire de votre résidence principale depuis 2 ans</p>
+                                </div>
+
+                                <div class="input-group">
+                                    <label for="ptz-zone">Zone géographique du bien</label>
+                                    <select id="ptz-zone" class="form-select">
+                                        <option value="">Sélectionnez votre zone</option>
+                                        <option value="A">Zone A - Paris, Côte d'Azur (Île-de-France, Nice, Cannes...)
+                                        </option>
+                                        <option value="B1">Zone B1 - Grandes agglomérations (Lyon, Marseille,
+                                            Bordeaux...)</option>
+                                        <option value="B2">Zone B2 - Villes moyennes (Angers, Brest, Dijon...)</option>
+                                        <option value="C">Zone C - Reste du territoire</option>
+                                    </select>
+                                    <p class="help-text">
+                                        📍 La zone détermine les plafonds de revenus et le montant maximum du PTZ.
+                                        <a href="https://www.service-public.fr/simulateur/calcul/zonage-abc"
+                                            target="_blank" rel="noopener" style="color: var(--primary-color);">Trouver
+                                            ma zone</a>
+                                    </p>
+                                </div>
+
+                                <div class="btn-group">
+                                    <button class="tab-btn prev-step">Précédent</button>
+                                    <button class="calculate-btn next-step">Suivant</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 3: Financials -->
+                    <div class="question-step" data-step="3">
+                        <div class="question-content-centered">
+                            <h2>Situation Financière</h2>
+                            <p class="question-subtitle">Vos informations pour calculer l'éligibilité aux aides</p>
+
+                            <div class="form-content-max">
+                                <div class="input-group">
+                                    <label for="income">Revenu Fiscal de Référence (N-2)</label>
+                                    <div class="input-wrapper">
+                                        <input type="number" id="income" placeholder="Ex: 35000" min="0">
+                                        <span class="icon" aria-hidden="true">€</span>
+                                    </div>
+                                    <p class="help-text">Revenu indiqué sur votre avis d'imposition</p>
+                                </div>
+
+                                <div class="input-group">
+                                    <label for="occupants">Nombre d'occupants du foyer</label>
+                                    <div class="input-wrapper">
+                                        <input type="number" id="occupants" placeholder="Ex: 2" min="1" value="1">
+                                    </div>
+                                </div>
+
+                                <div class="btn-group">
+                                    <button class="tab-btn prev-step">Précédent</button>
+                                    <button class="calculate-btn" id="show-results"
+                                        aria-label="Afficher les résultats des aides éligibles">Voir les
+                                        résultats</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="results-container" class="hidden">
+                    <h2 style="margin-bottom: 20px;">Aides éligibles estimées</h2>
+                    <div id="aids-list" class="aids-list">
+                        <!-- Results injected here -->
+                    </div>
+                    <button id="save-aides-btn" class="action-btn btn-success" style="margin-top: 20px; display: none;"
+                        aria-label="Sauvegarder les aides dans le dossier">
+                        Sauvegarder dans le dossier
+                    </button>
+                    <button id="restart-btn" class="action-btn outline" style="margin-top: 10px;"
+                        aria-label="Recommencer une nouvelle simulation">Recommencer une simulation</button>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <script type="module" src="src/js/pages/aides.js"></script>
+</body>
+
+</html>

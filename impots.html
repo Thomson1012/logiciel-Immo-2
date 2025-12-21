@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulateur d'Impôts Immobiliers</title>
+    <link rel="stylesheet" href="src/css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <!-- Theme Toggle Button -->
+    <div class="theme-toggle">
+        <button id="theme-toggle-btn" aria-label="Changer le thème (clair/sombre)" title="Changer le thème">
+            <svg class="sun-icon" width="20" height="20" viewBox="0 0 20 20" fill="none"
+                xmlns="http://www.w3.org/2000/svg">
+                <circle cx="10" cy="10" r="4" fill="currentColor" />
+                <path
+                    d="M10 0v3M10 17v3M20 10h-3M3 10H0M16.36 16.36l-2.12-2.12M5.76 5.76L3.64 3.64M16.36 3.64l-2.12 2.12M5.76 14.24l-2.12 2.12"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+            </svg>
+            <svg class="moon-icon hidden" width="20" height="20" viewBox="0 0 20 20" fill="none"
+                xmlns="http://www.w3.org/2000/svg">
+                <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" fill="currentColor" />
+            </svg>
+        </button>
+    </div>
+
+    <div class="background-blobs">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+
+    <main class="container">
+        <div class="app-wrapper">
+            <div class="calculator-card">
+                <header>
+                    <div class="header-nav">
+                        <div>
+                            <h1>Estimer ses impôts</h1>
+                            <p>Simulateur LMNP / Foncier / SCI</p>
+                        </div>
+                        <div style="display: flex; gap: 8px; align-items: center;">
+                            <a href="glossaire.html" class="help-link-btn" style="font-size: 0.85rem;"
+                                aria-label="Consulter le glossaire">📚 Glossaire</a>
+                            <div id="project-header" class="project-badge" style="display: none;">
+                                <!-- Project Name -->
+                            </div>
+                        </div>
+                    </div>
+                    <a href="index.html" class="back-link" aria-label="Retourner au simulateur principal">← Retour au
+                        simulateur</a>
+
+                    <!-- Fiscal Disclaimer -->
+                    <div class="disclaimer"
+                        style="background: rgba(245, 158, 11, 0.1); border-color: var(--warning-color); margin-top: 16px;">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"
+                                fill="currentColor" />
+                        </svg>
+                        <span><strong>Barème IR 2024</strong> (revenus 2023) - Prélèvements sociaux : 17,2% - IS : 15%
+                            puis 25%
+                            <br>⚠️ Ces barèmes seront mis à jour en 2025. Consultez un expert-comptable pour un conseil
+                            personnalisé.</span>
+                    </div>
+                </header>
+
+                <!-- Tax Regime Tabs -->
+                <div class="tabs" role="tablist" aria-label="Sélection du régime fiscal" style="margin-bottom: 24px;">
+                    <button class="tab-btn active" data-tax-tab="lmnp" role="tab" aria-selected="true">
+                        LMNP / Foncier
+                    </button>
+                    <button class="tab-btn" data-tax-tab="sci" role="tab" aria-selected="false">
+                        SCI
+                    </button>
+                </div>
+
+                <div id="questionnaire-container">
+                    <!-- Step 1: Income & Regime -->
+                    <div class="question-step active" data-step="1">
+                        <div class="question-content-centered">
+                            <h2>Revenus et Régime</h2>
+                            <p class="question-subtitle">Informations sur vos revenus locatifs et votre régime fiscal
+                            </p>
+
+                            <div class="form-content-max">
+                                <div class="input-group">
+                                    <label for="rental-income">Revenus Locatifs Annuels (Hors Charges)</label>
+                                    <div class="input-wrapper">
+                                        <input type="number" id="rental-income" placeholder="Ex: 12000" min="0">
+                                        <span class="icon" aria-hidden="true">€</span>
+                                    </div>
+                                </div>
+
+                                <div class="input-group">
+                                    <label>Type de Location</label>
+                                    <div class="radio-group-modern">
+                                        <label class="radio-option">
+                                            <input type="radio" name="locationType" value="nu" checked>
+                                            <span class="radio-label-text">🏠 Nu (Foncier)</span>
+                                        </label>
+                                        <label class="radio-option">
+                                            <input type="radio" name="locationType" value="meuble">
+                                            <span class="radio-label-text">🛋️ Meublé (LMNP)</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="input-group">
+                                    <label>Régime Fiscal</label>
+                                    <select id="regime" class="form-select">
+                                        <option value="micro">Micro (Abattement forfaitaire)</option>
+                                        <option value="reel">Réel (Déduction des charges)</option>
+                                    </select>
+                                    <p id="micro-info" class="help-text">
+                                        Abattement de 30% en Nu, 50% en Meublé.
+                                    </p>
+                                </div>
+
+                                <button class="calculate-btn next-step"
+                                    aria-label="Passer à l'étape suivante">Suivant</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 2: Charges (Only for Réel) & TMI -->
+                    <div class="question-step" data-step="2">
+                        <div class="question-content-centered">
+                            <h2>Charges et Situation</h2>
+                            <p class="question-subtitle">Détails de vos charges et tranche d'imposition</p>
+
+                            <div class="form-content-max">
+                                <div id="reel-charges-section" style="display: none;">
+                                    <div class="input-group">
+                                        <label for="deductible-charges">Total Charges Déductibles Annuelles</label>
+                                        <div class="input-wrapper">
+                                            <input type="number" id="deductible-charges" placeholder="Ex: 4000" min="0">
+                                            <span class="icon" aria-hidden="true">€</span>
+                                        </div>
+                                        <p class="help-text">
+                                            Taxe foncière, charges copro, assurances, gestion, etc.
+                                        </p>
+                                    </div>
+
+                                    <div class="input-group">
+                                        <label for="loan-interest">Intérêts d'Emprunt Annuels</label>
+                                        <div class="input-wrapper">
+                                            <input type="number" id="loan-interest" placeholder="Ex: 3000" min="0">
+                                            <span class="icon" aria-hidden="true">€</span>
+                                        </div>
+                                    </div>
+
+                                    <div id="amortissement-group" class="input-group" style="display: none;">
+                                        <label for="amortissement">Amortissement Annuel (LMNP Réel)</label>
+                                        <div class="input-wrapper">
+                                            <input type="number" id="amortissement" placeholder="Ex: 5000" min="0">
+                                            <span class="icon" aria-hidden="true">€</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="input-group">
+                                    <label for="tmi">Tranche Marginale d'Imposition (TMI)</label>
+                                    <select id="tmi" class="form-select">
+                                        <option value="0">0%</option>
+                                        <option value="11">11%</option>
+                                        <option value="30" selected>30%</option>
+                                        <option value="41">41%</option>
+                                        <option value="45">45%</option>
+                                    </select>
+                                </div>
+
+                                <div class="btn-group">
+                                    <button class="tab-btn prev-step">Précédent</button>
+                                    <button class="calculate-btn" id="calculate-tax"
+                                        aria-label="Calculer l'estimation des impôts">Calculer mes impôts</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SCI Questionnaire -->
+                <div id="sci-questionnaire-container" style="display: none;">
+                    <!-- SCI Step 1: Regime Selection -->
+                    <div class="question-step active" data-sci-step="1">
+                        <div class="question-content-centered">
+                            <h2>Régime Fiscal SCI</h2>
+                            <p class="question-subtitle">Choisissez le régime fiscal de votre SCI</p>
+
+                            <div class="form-content-max">
+                                <div class="input-group">
+                                    <label for="sci-rental-income">Revenus Locatifs Annuels de la SCI</label>
+                                    <div class="input-wrapper">
+                                        <input type="number" id="sci-rental-income" placeholder="Ex: 50000" min="0">
+                                        <span class="icon" aria-hidden="true">€</span>
+                                    </div>
+                                </div>
+
+                                <div class="input-group">
+                                    <label>Régime Fiscal de la SCI</label>
+                                    <div class="radio-group-modern">
+                                        <label class="radio-option">
+                                            <input type="radio" name="sciRegime" value="ir" checked>
+                                            <span class="radio-label-text">
+                                                📋 SCI à l'IR
+                                                <span
+                                                    style="display: block; font-size: 0.85rem; color: var(--text-secondary); margin-top: 4px;">
+                                                    Transparence fiscale - Imposition au niveau des associés
+                                                </span>
+                                            </span>
+                                        </label>
+                                        <label class="radio-option">
+                                            <input type="radio" name="sciRegime" value="is">
+                                            <span class="radio-label-text">
+                                                🏢 SCI à l'IS
+                                                <span
+                                                    style="display: block; font-size: 0.85rem; color: var(--text-secondary); margin-top: 4px;">
+                                                    Imposition au niveau de la société (15% puis 25%)
+                                                </span>
+                                            </span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div id="sci-ir-info" class="result-interpretation info" style="margin-top: 16px;">
+                                    <h4>ℹ️ SCI à l'IR (Transparence Fiscale)</h4>
+                                    <p>
+                                        Les revenus fonciers sont imposés directement au niveau de chaque associé selon
+                                        sa quote-part et sa TMI personnelle.
+                                        Les charges sont déductibles (intérêts d'emprunt, travaux, frais de gestion,
+                                        etc.).
+                                    </p>
+                                </div>
+
+                                <div id="sci-is-info" class="result-interpretation info"
+                                    style="margin-top: 16px; display: none;">
+                                    <h4>ℹ️ SCI à l'IS (Impôt sur les Sociétés)</h4>
+                                    <p>
+                                        La SCI est imposée comme une entreprise : 15% jusqu'à 42 500€ de bénéfices, puis
+                                        25% au-delà.
+                                        Permet l'amortissement du bien et des travaux. Les dividendes versés aux
+                                        associés sont soumis à la flat tax (30%).
+                                    </p>
+                                </div>
+
+                                <button class="calculate-btn sci-next-step">Suivant</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SCI Step 2: Charges and Calculation -->
+                    <div class="question-step" data-sci-step="2">
+                        <div class="question-content-centered">
+                            <h2>Charges et Associés</h2>
+                            <p class="question-subtitle">Détails des charges déductibles et informations sur les
+                                associés</p>
+
+                            <div class="form-content-max">
+                                <div class="input-group">
+                                    <label for="sci-charges">Charges Déductibles Annuelles</label>
+                                    <div class="input-wrapper">
+                                        <input type="number" id="sci-charges" placeholder="Ex: 8000" min="0">
+                                        <span class="icon" aria-hidden="true">€</span>
+                                    </div>
+                                    <p class="help-text">
+                                        Taxe foncière, charges copro, assurances, frais de gestion, comptabilité, etc.
+                                    </p>
+                                </div>
+
+                                <div class="input-group">
+                                    <label for="sci-interest">Intérêts d'Emprunt Annuels</label>
+                                    <div class="input-wrapper">
+                                        <input type="number" id="sci-interest" placeholder="Ex: 5000" min="0">
+                                        <span class="icon" aria-hidden="true">€</span>
+                                    </div>
+                                </div>
+
+                                <div id="sci-amortissement-group" class="input-group" style="display: none;">
+                                    <label for="sci-amortissement">Amortissement Annuel (SCI à l'IS)</label>
+                                    <div class="input-wrapper">
+                                        <input type="number" id="sci-amortissement" placeholder="Ex: 10000" min="0">
+                                        <span class="icon" aria-hidden="true">€</span>
+                                    </div>
+                                    <p class="help-text">
+                                        Amortissement du bien immobilier et des travaux (généralement 2-3% de la valeur)
+                                    </p>
+                                </div>
+
+                                <div id="sci-ir-associate-section">
+                                    <div class="input-group">
+                                        <label for="sci-quote-part">Votre Quote-part (%)</label>
+                                        <div class="input-wrapper">
+                                            <input type="number" id="sci-quote-part" placeholder="Ex: 50" min="0"
+                                                max="100" value="100">
+                                            <span class="icon" aria-hidden="true">%</span>
+                                        </div>
+                                        <p class="help-text">
+                                            Pourcentage de parts que vous détenez dans la SCI
+                                        </p>
+                                    </div>
+
+                                    <div class="input-group">
+                                        <label for="sci-tmi">Votre TMI (Tranche Marginale d'Imposition)</label>
+                                        <select id="sci-tmi" class="form-select">
+                                            <option value="0">0%</option>
+                                            <option value="11">11%</option>
+                                            <option value="30" selected>30%</option>
+                                            <option value="41">41%</option>
+                                            <option value="45">45%</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="btn-group">
+                                    <button class="tab-btn sci-prev-step">Précédent</button>
+                                    <button class="calculate-btn" id="calculate-sci-tax">Calculer mes impôts
+                                        SCI</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="results-container" class="hidden">
+                    <h2 style="margin-bottom: 20px;">Estimation Fiscale</h2>
+
+                    <div class="result-card">
+                        <div class="result-row">
+                            <span>Revenus Bruts</span>
+                            <span id="res-gross-income">0 €</span>
+                        </div>
+                        <div class="result-row">
+                            <span>Base Imposable</span>
+                            <span id="res-taxable-base">0 €</span>
+                        </div>
+                        <div class="result-row">
+                            <span>Impôt sur le Revenu (TMI)</span>
+                            <span id="res-ir">0 €</span>
+                        </div>
+                        <div class="result-row">
+                            <span>Prélèvements Sociaux (17.2%)</span>
+                            <span id="res-ps">0 €</span>
+                        </div>
+                        <div class="result-total">
+                            <span>Total Impôts</span>
+                            <span id="res-total-tax">0 €</span>
+                        </div>
+                    </div>
+
+                    <div class="result-card">
+                        <div class="result-row total">
+                            <span>Revenu Net d'Impôts (Est.)</span>
+                            <span id="res-net-income" class="value">0 €</span>
+                        </div>
+                        <div class="result-row">
+                            <span>Taux d'imposition global</span>
+                            <span id="res-global-rate" class="value">0 %</span>
+                        </div>
+
+                        <button id="save-impots-btn" class="action-btn btn-success"
+                            style="margin-top: 20px; display: none;"
+                            aria-label="Sauvegarder l'estimation dans le dossier">
+                            Sauvegarder dans le dossier
+                        </button>
+                        <button id="restart-btn" class="action-btn outline" style="margin-top: 10px;"
+                            aria-label="Refaire une nouvelle simulation">Refaire une
+                            simulation</button>
+                    </div>
+
+                </div>
+            </div>
+    </main>
+
+    <script type="module" src="src/js/pages/impots.js"></script>
+</body>
+
+</html>

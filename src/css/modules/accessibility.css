@@ -1,0 +1,92 @@
+/* ============================================
+   ACCESSIBILITY STYLES (WCAG AA)
+   ============================================ */
+
+/* Skip Link for keyboard users */
+.skip-link {
+    position: absolute;
+    top: -40px;
+    left: 0;
+    background: var(--primary-color);
+    color: white;
+    padding: 8px 16px;
+    text-decoration: none;
+    z-index: 1000;
+    border-radius: 0 0 4px 0;
+    font-weight: 600;
+    transition: top var(--transition-fast);
+}
+
+.skip-link:focus {
+    top: 0;
+    outline: 2px solid var(--warning-color);
+    outline-offset: 2px;
+}
+
+/* Screen reader only content */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}
+
+/* Enhanced focus visibility (WCAG 2.4.7) */
+*:focus-visible {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+    border-radius: 4px;
+}
+
+/* High contrast focus for buttons */
+button:focus-visible,
+a:focus-visible {
+    outline: 3px solid var(--primary-color);
+    outline-offset: 2px;
+}
+
+/* Focus within for containers */
+.input-wrapper:focus-within {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+    border-radius: var(--radius-md);
+}
+
+/* ARIA live region styling */
+#aria-live-announcer {
+    position: absolute;
+    left: -10000px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+}
+
+/* Reduced motion support (WCAG 2.3.3) */
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    * {
+        border-width: 2px !important;
+    }
+
+    button,
+    .btn {
+        border: 2px solid currentColor !important;
+    }
+}

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comparateur - Version Simple</title>
+    <link rel="stylesheet" href="src/css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <!-- Theme Toggle Button -->
+    <div class="theme-toggle">
+        <button id="theme-toggle-btn" aria-label="Changer le thème (clair/sombre)" title="Changer le thème">
+            <svg class="sun-icon" width="20" height="20" viewBox="0 0 20 20" fill="none"
+                xmlns="http://www.w3.org/2000/svg">
+                <circle cx="10" cy="10" r="4" fill="currentColor" />
+                <path
+                    d="M10 0v3M10 17v3M20 10h-3M3 10H0M16.36 16.36l-2.12-2.12M5.76 5.76L3.64 3.64M16.36 3.64l-2.12 2.12M5.76 14.24l-2.12 2.12"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+            </svg>
+            <svg class="moon-icon hidden" width="20" height="20" viewBox="0 0 20 20" fill="none"
+                xmlns="http://www.w3.org/2000/svg">
+                <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" fill="currentColor" />
+            </svg>
+        </button>
+    </div>
+
+    <div class="background-blobs">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+
+    <main class="container">
+        <div class="main-content">
+            <div class="calculator-card">
+                <header>
+                    <div class="header-nav">
+                        <div>
+                            <h1>Comparateur de Projets</h1>
+                            <p>Comparez vos investissements immobiliers</p>
+                        </div>
+                        <div>
+                            <a href="index.html" class="nav-link-btn">← Retour</a>
+                        </div>
+                    </div>
+                </header>
+
+                <div class="comparison-section">
+                    <p class="text-muted" style="text-align: center; margin-bottom: 24px;">
+                        Sélectionnez au moins 2 projets pour les comparer
+                    </p>
+
+                    <div id="project-selector" class="project-selector">
+                        <p style="text-align: center;">Chargement...</p>
+                    </div>
+
+                    <button id="compare-btn" class="calculate-btn" style="margin-top: 24px;">
+                        Comparer les projets sélectionnés
+                    </button>
+
+                    <div id="comparison-results" class="hidden"></div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script type="module">
+        // Inline script to avoid any caching issues
+        import { ProjectManager } from './src/js/managers/projectManager.js';
+        import { Security } from './src/js/utils/security.js';
+        import { UI } from './src/js/utils/ui.js';
+        import { ProjectComparator } from './src/js/utils/projectComparator.js';
+
+        const selector = document.getElementById('project-selector');
+        const compareBtn = document.getElementById('compare-btn');
+        const results = document.getElementById('comparison-results');
+
+        // Get projects
+        const projects = ProjectManager.getAllProjects();
+
+        // Display immediately
+        if (!projects || projects.length === 0) {
+            selector.innerHTML = '<p class="text-muted" style="text-align: center;">Aucun projet trouvé.<br><a href="index.html">Créer des projets</a></p>';
+            compareBtn.disabled = true;
+        } else if (projects.length < 2) {
+            selector.innerHTML = `
+                <p class="text-muted" style="text-align: center;">
+                    Vous avez 1 projet: <strong>${Security.sanitizeHTML(projects[0].name)}</strong><br>
+                    Il en faut 2 minimum pour comparer.
+                </p>
+            `;
+            compareBtn.disabled = true;
+        } else {
+            // Render checkboxes
+            let html = '<div class="project-checkbox-grid">';
+            projects.forEach(project => {
+                html += `
+                    <label class="project-checkbox-label">
+                        <input type="checkbox" name="project-compare" value="${project.id}">
+                        <span>${Security.sanitizeHTML(project.name)}</span>
+                        <small>${new Date(project.createdAt).toLocaleDateString('fr-FR')}</small>
+                    </label>
+                `;
+            });
+            html += '</div>';
+            selector.innerHTML = html;
+
+            // Compare button
+            compareBtn.addEventListener('click', () => {
+                const selected = Array.from(document.querySelectorAll('input[name="project-compare"]:checked'))
+                    .map(cb => cb.value);
+
+                if (selected.length < 2) {
+                    UI.showToast('Sélectionnez au moins 2 projets', 'warning');
+                    return;
+                }
+
+                const analyses = ProjectComparator.compareProjects(selected);
+                if (analyses) {
+                    results.innerHTML = ProjectComparator.renderComparison(analyses);
+                    results.classList.remove('hidden');
+                    results.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        }
+    </script>
+</body>
+
+</html>

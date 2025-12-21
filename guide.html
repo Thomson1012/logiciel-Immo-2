@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Guide débutant pour utiliser le calculateur immobilier - Tutoriels pas à pas">
+    <title>Guide Débutant - Calculateur Immobilier</title>
+    <link rel="icon" type="image/svg+xml"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎓</text></svg>">
+    <link rel="stylesheet" href="src/css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <!-- Theme Toggle Button -->
+    <div class="theme-toggle">
+        <button id="theme-toggle-btn" aria-label="Changer le thème (clair/sombre)" title="Changer le thème">
+            <svg class="sun-icon" width="20" height="20" viewBox="0 0 20 20" fill="none"
+                xmlns="http://www.w3.org/2000/svg">
+                <circle cx="10" cy="10" r="4" fill="currentColor" />
+                <path
+                    d="M10 0v3M10 17v3M20 10h-3M3 10H0M16.36 16.36l-2.12-2.12M5.76 5.76L3.64 3.64M16.36 3.64l-2.12 2.12M5.76 14.24l-2.12 2.12"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+            </svg>
+            <svg class="moon-icon hidden" width="20" height="20" viewBox="0 0 20 20" fill="none"
+                xmlns="http://www.w3.org/2000/svg">
+                <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" fill="currentColor" />
+            </svg>
+        </button>
+    </div>
+
+    <div class="background-blobs">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+
+    <main class="container">
+        <div class="calculator-card" style="max-width: 900px; margin: 0 auto;">
+            <header>
+                <div class="header-nav">
+                    <div>
+                        <h1>🎓 Guide Débutant</h1>
+                        <p>Apprenez à utiliser le calculateur pas à pas</p>
+                    </div>
+                </div>
+                <a href="index.html" class="back-link" aria-label="Retourner au simulateur principal">← Retour au
+                    simulateur</a>
+            </header>
+
+            <!-- Quick Navigation -->
+            <div class="guide-nav" style="margin-bottom: 32px;">
+                <h3 style="margin-bottom: 16px; color: var(--text-main);">📋 Navigation Rapide</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px;">
+                    <a href="#premiers-pas" class="guide-nav-link">🚀 Premiers Pas</a>
+                    <a href="#simuler-credit" class="guide-nav-link">💳 Simuler un Crédit</a>
+                    <a href="#calculer-rentabilite" class="guide-nav-link">📊 Calculer la Rentabilité</a>
+                    <a href="#estimer-impots" class="guide-nav-link">💼 Estimer ses Impôts</a>
+                    <a href="#aides-etat" class="guide-nav-link">🎁 Aides de l'État</a>
+                    <a href="#faq" class="guide-nav-link">❓ FAQ</a>
+                </div>
+            </div>
+
+            <!-- Section: Premiers Pas -->
+            <div class="guide-section" id="premiers-pas">
+                <h2>🚀 Premiers Pas</h2>
+
+                <div class="guide-card">
+                    <h3>Bienvenue sur votre calculateur immobilier !</h3>
+                    <p>Ce logiciel vous aide à <strong>analyser vos projets immobiliers</strong> avant de vous lancer.
+                        Que vous souhaitiez acheter votre résidence principale ou investir dans la location, vous êtes
+                        au bon endroit.</p>
+
+                    <div class="guide-tip">
+                        <strong>💡 À quoi sert cet outil ?</strong>
+                        <ul>
+                            <li>✅ Calculer vos mensualités de crédit</li>
+                            <li>✅ Estimer la rentabilité d'un investissement locatif</li>
+                            <li>✅ Connaître votre capacité d'emprunt</li>
+                            <li>✅ Découvrir les aides de l'État auxquelles vous avez droit</li>
+                            <li>✅ Estimer vos impôts sur les revenus locatifs</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="guide-card">
+                    <h3>🗂️ Créer votre premier dossier</h3>
+                    <p>Un <strong>dossier</strong> regroupe toutes les informations d'un projet immobilier. Vous pouvez
+                        créer plusieurs dossiers pour comparer différents biens.</p>
+
+                    <div class="guide-steps">
+                        <div class="step">
+                            <div class="step-number">1</div>
+                            <div class="step-content">
+                                <strong>Cliquez sur "Nouveau Dossier"</strong>
+                                <p>Dans la barre latérale droite (ou menu mobile en bas à droite)</p>
+                            </div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">2</div>
+                            <div class="step-content">
+                                <strong>Donnez un nom à votre projet</strong>
+                                <p>Ex: "Appartement T2 Lyon", "Maison Bordeaux", etc.</p>
+                            </div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">3</div>
+                            <div class="step-content">
+                                <strong>Remplissez les simulateurs</strong>
+                                <p>Toutes vos simulations seront automatiquement sauvegardées dans ce dossier</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section: Simuler un Crédit -->
+            <div class="guide-section" id="simuler-credit">
+                <h2>💳 Simuler un Crédit Immobilier</h2>
+
+                <div class="guide-card">
+                    <h3>Quand utiliser ce simulateur ?</h3>
+                    <p>Utilisez ce simulateur quand vous voulez savoir <strong>combien vous allez payer chaque
+                            mois</strong> pour un crédit immobilier.</p>
+
+                    <div class="guide-example">
+                        <strong>📌 Exemple concret :</strong>
+                        <p>Vous avez trouvé un appartement à 200 000€. La banque vous propose un taux de 3,5% sur 20
+                            ans. Combien allez-vous payer par mois ?</p>
+                    </div>
+                </div>
+
+                <div class="guide-card">
+                    <h3>Comment remplir le formulaire ?</h3>
+
+                    <div class="guide-steps">
+                        <div class="step">
+                            <div class="step-number">1</div>
+                            <div class="step-content">
+                                <strong>Montant du prêt</strong>
+                                <p>C'est le prix du bien <strong>moins votre apport</strong>. Si le bien coûte 200 000€
+                                    et que vous avez 20 000€ d'apport, mettez 180 000€.</p>
+                                <div class="guide-warning">
+                                    ⚠️ N'incluez pas les frais de notaire dans ce montant
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="step">
+                            <div class="step-number">2</div>
+                            <div class="step-content">
+                                <strong>Taux d'intérêt</strong>
+                                <p>C'est le taux que la banque vous propose. En 2024, les taux sont entre <strong>3% et
+                                        4,5%</strong> selon votre profil.</p>
+                                <div class="guide-tip-small">
+                                    💡 Demandez plusieurs simulations à différentes banques pour comparer
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="step">
+                            <div class="step-number">3</div>
+                            <div class="step-content">
+                                <strong>Durée du prêt</strong>
+                                <p>Généralement entre <strong>15 et 25 ans</strong>. Plus la durée est longue, plus les
+                                    mensualités sont faibles, mais plus vous payez d'intérêts au total.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="guide-card">
+                    <h3>Comprendre les résultats</h3>
+                    <ul class="guide-list">
+                        <li><strong>Mensualité estimée</strong> : Ce que vous paierez chaque mois (crédit + assurance)
+                        </li>
+                        <li><strong>Coût total du crédit</strong> : Montant emprunté + tous les intérêts</li>
+                        <li><strong>Total des intérêts</strong> : Ce que vous payez en plus du prix du bien</li>
+                    </ul>
+
+                    <div class="guide-example">
+                        <strong>📊 Exemple de résultat :</strong>
+                        <p>Pour un prêt de 180 000€ à 3,5% sur 20 ans :<br>
+                            • Mensualité : <strong>1 044€/mois</strong><br>
+                            • Coût total : <strong>250 560€</strong><br>
+                            • Intérêts : <strong>70 560€</strong></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section: Calculer la Rentabilité -->
+            <div class="guide-section" id="calculer-rentabilite">
+                <h2>📊 Calculer la Rentabilité d'un Investissement Locatif</h2>
+
+                <div class="guide-card">
+                    <h3>Quand utiliser ce simulateur ?</h3>
+                    <p>Utilisez ce simulateur quand vous voulez <strong>acheter un bien pour le louer</strong> et savoir
+                        si c'est rentable.</p>
+
+                    <div class="guide-tip">
+                        <strong>🎯 Objectif :</strong> Savoir si les loyers couvrent vos charges et si l'investissement
+                        en vaut la peine.
+                    </div>
+                </div>
+
+                <div class="guide-card">
+                    <h3>Les informations à remplir</h3>
+
+                    <div class="guide-steps">
+                        <div class="step">
+                            <div class="step-number">1</div>
+                            <div class="step-content">
+                                <strong>Prix d'achat</strong>
+                                <p>Le prix du bien affiché par le vendeur (FAI = Frais d'Agence Inclus)</p>
+                            </div>
+                        </div>
+
+                        <div class="step">
+                            <div class="step-number">2</div>
+                            <div class="step-content">
+                                <strong>Type de bien</strong>
+                                <p>• <strong>Ancien</strong> : Frais de notaire ~7,5%<br>
+                                    • <strong>Neuf (VEFA)</strong> : Frais de notaire ~2,5%</p>
+                            </div>
+                        </div>
+
+                        <div class="step">
+                            <div class="step-number">3</div>
+                            <div class="step-content">
+                                <strong>Loyer mensuel</strong>
+                                <p>Regardez les annonces similaires dans le quartier pour estimer le loyer réaliste</p>
+                                <div class="guide-tip-small">
+                                    💡 Soyez réaliste ! Un loyer trop élevé = difficultés à trouver un locataire
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="step">
+                            <div class="step-number">4</div>
+                            <div class="step-content">
+                                <strong>Charges annuelles</strong>
+                                <p>Charges de copropriété, entretien, assurances... Demandez au syndic ou estimez ~1
+                                    000-2 000€/an</p>
+                            </div>
+                        </div>
+
+                        <div class="step">
+                            <div class="step-number">5</div>
+                            <div class="step-content">
+                                <strong>Taxe foncière</strong>
+                                <p>Demandez au vendeur le montant exact. Varie beaucoup selon les villes (500€ à 2
+                                    000€/an)</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="guide-card">
+                    <h3>Interpréter les résultats</h3>
+
+                    <div class="guide-metric">
+                        <h4>📈 Rentabilité Brute</h4>
+                        <p>Rapport entre loyer annuel et prix total. <strong>Ne tient pas compte des charges.</strong>
+                        </p>
+                        <ul>
+                            <li>
+                                &lt; 3% : Faible (grandes villes type Paris)</li>
+                            <li>3-5% : Moyenne (villes moyennes)</li>
+                            <li>5-7% : Bonne</li>
+                            <li>&gt; 7% : Excellente</li>
+                        </ul>
+                    </div>
+
+                    <div class="guide-metric">
+                        <h4>📉 Rentabilité Nette</h4>
+                        <p>Le <strong>vrai rendement</strong> après déduction de toutes les charges. C'est l'indicateur
+                            le plus important !</p>
+                        <ul>
+                            <li>
+                                &lt; 2% : Faible rentabilité</li>
+                            <li>2-4% : Correcte</li>
+                            <li>4-6% : Bonne</li>
+                            <li>&gt; 6% : Excellente</li>
+                        </ul>
+                    </div>
+
+                    <div class="guide-metric">
+                        <h4>💰 Cashflow</h4>
+                        <p>L'argent qui reste dans votre poche chaque mois.</p>
+                        <ul>
+                            <li><strong>Positif</strong> : Le bien se paie tout seul ✅</li>
+                            <li><strong>Négatif</strong> : Vous devez compléter de votre poche ⚠️</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section: Estimer ses Impôts -->
+            <div class="guide-section" id="estimer-impots">
+                <h2>💼 Estimer ses Impôts sur les Revenus Locatifs</h2>
+
+                <div class="guide-card">
+                    <h3>Pourquoi c'est important ?</h3>
+                    <p>Les revenus locatifs sont imposables ! Il faut <strong>déclarer vos loyers</strong> et payer des
+                        impôts dessus. Ce simulateur vous aide à estimer combien vous allez payer.</p>
+
+                    <div class="guide-warning">
+                        ⚠️ <strong>Important :</strong> Ces estimations sont indicatives. Pour un conseil personnalisé,
+                        consultez un expert-comptable.
+                    </div>
+                </div>
+
+                <div class="guide-card">
+                    <h3>Quel régime fiscal choisir ?</h3>
+
+                    <div class="regime-comparison">
+                        <div class="regime-card">
+                            <h4>🏠 Location Nue (Vide)</h4>
+                            <p><strong>Micro-Foncier</strong> : Abattement de 30% automatique</p>
+                            <p><strong>Réel</strong> : Déduction des charges réelles</p>
+                            <div class="guide-tip-small">
+                                💡 Choisir le réel si vos charges > 30% des loyers
+                            </div>
+                        </div>
+
+                        <div class="regime-card">
+                            <h4>🛋️ Location Meublée (LMNP)</h4>
+                            <p><strong>Micro-BIC</strong> : Abattement de 50% automatique</p>
+                            <p><strong>Réel</strong> : Déduction charges + amortissement</p>
+                            <div class="guide-tip-small">
+                                ✅ Le réel est souvent plus avantageux en meublé grâce à l'amortissement
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="guide-card">
+                    <h3>Comprendre votre TMI (Tranche Marginale d'Imposition)</h3>
+                    <p>C'est le <strong>taux d'imposition</strong> qui s'appliquera à vos revenus locatifs
+                        supplémentaires.</p>
+
+                    <div class="guide-example">
+                        <strong>📊 Barème 2024 :</strong>
+                        <ul>
+                            <li>Jusqu'à 10 777€ : <strong>0%</strong></li>
+                            <li>10 778€ à 27 478€ : <strong>11%</strong></li>
+                            <li>27 479€ à 78 570€ : <strong>30%</strong></li>
+                            <li>78 571€ à 168 994€ : <strong>41%</strong></li>
+                            <li>Au-delà : <strong>45%</strong></li>
+                        </ul>
+                        <p style="margin-top: 12px;">+ <strong>17,2% de prélèvements sociaux</strong> dans tous les cas
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section: Aides de l'État -->
+            <div class="guide-section" id="aides-etat">
+                <h2>🎁 Découvrir les Aides de l'État</h2>
+
+                <div class="guide-card">
+                    <h3>Quelles aides existent ?</h3>
+
+                    <div class="aide-card">
+                        <h4>🏡 PTZ (Prêt à Taux Zéro)</h4>
+                        <p>Prêt sans intérêts pour les <strong>primo-accédants</strong> qui achètent leur résidence
+                            principale.</p>
+                        <ul>
+                            <li>Montant : Jusqu'à 40% du prix du bien (selon zone)</li>
+                            <li>Conditions : Plafonds de revenus selon zone et composition du foyer</li>
+                        </ul>
+                    </div>
+
+                    <div class="aide-card">
+                        <h4>🔧 MaPrimeRénov'</h4>
+                        <p>Aide pour les <strong>travaux de rénovation énergétique</strong>.</p>
+                        <ul>
+                            <li>Montant : Jusqu'à 90% du coût des travaux (selon revenus)</li>
+                            <li>Travaux : Isolation, chauffage, ventilation</li>
+                        </ul>
+                    </div>
+
+                    <div class="aide-card">
+                        <h4>💰 Éco-PTZ</h4>
+                        <p>Prêt à taux zéro pour financer des <strong>travaux de rénovation énergétique</strong>.</p>
+                        <ul>
+                            <li>Montant : Jusqu'à 50 000€</li>
+                            <li>Cumulable avec MaPrimeRénov'</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="guide-card">
+                    <h3>Comment utiliser le simulateur ?</h3>
+                    <p>Le questionnaire vous guide étape par étape pour identifier les aides auxquelles vous êtes
+                        éligible.</p>
+
+                    <div class="guide-tip">
+                        <strong>📋 Documents à préparer :</strong>
+                        <ul>
+                            <li>Votre dernier avis d'imposition (pour le Revenu Fiscal de Référence)</li>
+                            <li>L'adresse du bien (pour connaître la zone PTZ)</li>
+                            <li>Le nombre de personnes dans votre foyer</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section: FAQ -->
+            <div class="guide-section" id="faq">
+                <h2>❓ Questions Fréquentes (FAQ)</h2>
+
+                <div class="faq-item">
+                    <h3>💾 Mes données sont-elles sauvegardées ?</h3>
+                    <p>Oui ! Toutes vos simulations sont sauvegardées <strong>localement dans votre navigateur</strong>.
+                        Elles ne sont pas envoyées sur internet.</p>
+                    <div class="guide-warning">
+                        ⚠️ Si vous videz le cache de votre navigateur, vos données seront perdues. Pensez à exporter vos
+                        simulations en PDF.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <h3>🔒 Mes informations sont-elles sécurisées ?</h3>
+                    <p>Oui, toutes vos données restent <strong>sur votre ordinateur</strong>. Rien n'est envoyé à un
+                        serveur externe.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h3>📱 Puis-je utiliser l'outil sur mobile ?</h3>
+                    <p>Oui ! L'interface est <strong>responsive</strong> et s'adapte aux smartphones et tablettes.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h3>🎯 Les résultats sont-ils fiables ?</h3>
+                    <p>Les calculs sont basés sur des <strong>formules financières standard</strong> et les barèmes
+                        fiscaux officiels. Cependant, ce sont des estimations. Pour un projet réel, consultez toujours
+                        un professionnel (banquier, notaire, expert-comptable).</p>
+                </div>
+
+                <div class="faq-item">
+                    <h3>📊 Quelle est la différence entre rentabilité brute et nette ?</h3>
+                    <p>• <strong>Brute</strong> : Loyer ÷ Prix (simple mais imprécis)<br>
+                        • <strong>Nette</strong> : (Loyer - Charges) ÷ Prix (plus réaliste)<br>
+                        Utilisez toujours la rentabilité nette pour vos décisions !</p>
+                </div>
+
+                <div class="faq-item">
+                    <h3>🏦 Comment savoir si je peux emprunter ?</h3>
+                    <p>Utilisez le <strong>simulateur de capacité d'emprunt</strong>. Les banques limitent vos
+                        mensualités à 35% de vos revenus nets.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h3>📚 Je ne comprends pas un terme, que faire ?</h3>
+                    <p>Consultez le <a href="glossaire.html" style="color: var(--primary-color); font-weight: 600;">📚
+                            Glossaire</a> ! Tous les termes financiers y sont expliqués simplement avec des exemples.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Call to Action -->
+            <div class="guide-cta">
+                <h3>🚀 Prêt à commencer ?</h3>
+                <p>Vous avez maintenant toutes les clés pour utiliser le calculateur efficacement !</p>
+                <div style="display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; margin-top: 20px;">
+                    <a href="index.html" class="calculate-btn" style="width: auto; padding: 14px 28px;">Lancer une
+                        simulation</a>
+                    <a href="glossaire.html" class="help-link-btn" style="padding: 14px 28px;">📚 Consulter le
+                        glossaire</a>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+
+</body>
+
+</html>

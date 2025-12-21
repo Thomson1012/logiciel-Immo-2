@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Glossaire des termes financiers et immobiliers - Définitions claires pour débutants">
+    <title>Glossaire Financier - Calculateur Immobilier</title>
+    <link rel="icon" type="image/svg+xml"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📚</text></svg>">
+    <link rel="stylesheet" href="src/css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <!-- Theme Toggle Button -->
+    <div class="theme-toggle">
+        <button id="theme-toggle-btn" aria-label="Changer le thème (clair/sombre)" title="Changer le thème">
+            <svg class="sun-icon" width="20" height="20" viewBox="0 0 20 20" fill="none"
+                xmlns="http://www.w3.org/2000/svg">
+                <circle cx="10" cy="10" r="4" fill="currentColor" />
+                <path
+                    d="M10 0v3M10 17v3M20 10h-3M3 10H0M16.36 16.36l-2.12-2.12M5.76 5.76L3.64 3.64M16.36 3.64l-2.12 2.12M5.76 14.24l-2.12 2.12"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+            </svg>
+            <svg class="moon-icon hidden" width="20" height="20" viewBox="0 0 20 20" fill="none"
+                xmlns="http://www.w3.org/2000/svg">
+                <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" fill="currentColor" />
+            </svg>
+        </button>
+    </div>
+
+    <div class="background-blobs">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+
+    <main class="container">
+        <div class="calculator-card" style="max-width: 900px; margin: 0 auto;">
+            <header>
+                <div class="header-nav">
+                    <div>
+                        <h1>📚 Glossaire Financier</h1>
+                        <p>Tous les termes expliqués simplement</p>
+                    </div>
+                </div>
+                <a href="index.html" class="back-link" aria-label="Retourner au simulateur principal">← Retour au
+                    simulateur</a>
+            </header>
+
+            <!-- Search Bar -->
+            <div class="input-group" style="margin-bottom: 32px;">
+                <label for="glossary-search">🔍 Rechercher un terme</label>
+                <div class="input-wrapper">
+                    <input type="text" id="glossary-search" placeholder="Ex: TMI, TRI, LMNP...">
+                </div>
+            </div>
+
+            <!-- Alphabet Navigation -->
+            <div class="alphabet-nav" style="margin-bottom: 32px;">
+                <button class="alphabet-btn active" data-filter="all">Tous</button>
+                <button class="alphabet-btn" data-filter="A">A</button>
+                <button class="alphabet-btn" data-filter="C">C</button>
+                <button class="alphabet-btn" data-filter="D">D</button>
+                <button class="alphabet-btn" data-filter="F">F</button>
+                <button class="alphabet-btn" data-filter="I">I</button>
+                <button class="alphabet-btn" data-filter="L">L</button>
+                <button class="alphabet-btn" data-filter="M">M</button>
+                <button class="alphabet-btn" data-filter="P">P</button>
+                <button class="alphabet-btn" data-filter="R">R</button>
+                <button class="alphabet-btn" data-filter="S">S</button>
+                <button class="alphabet-btn" data-filter="T">T</button>
+            </div>
+
+            <!-- Glossary Terms -->
+            <div id="glossary-container" class="glossary-container">
+
+                <!-- A -->
+                <div class="glossary-term" data-letter="A" id="amortissement">
+                    <h3>🔧 Amortissement</h3>
+                    <div class="term-category">Comptabilité • Fiscalité</div>
+                    <p class="term-definition">
+                        L'amortissement est la <strong>dépréciation comptable</strong> d'un bien immobilier sur
+                        plusieurs années.
+                        En LMNP ou SCI à l'IS, vous pouvez déduire une partie de la valeur du bien chaque année de vos
+                        revenus imposables.
+                    </p>
+                    <div class="term-example">
+                        <strong>💡 Exemple concret :</strong><br>
+                        Vous achetez un appartement à 200 000€. Avec un amortissement sur 25 ans, vous pouvez déduire
+                        environ 8 000€/an de vos revenus locatifs (200 000€ ÷ 25 ans).
+                    </div>
+                    <div class="term-tip">
+                        ⚠️ <strong>Important :</strong> L'amortissement n'est possible qu'en LMNP au réel ou en SCI à
+                        l'IS,
+                        pas en location nue classique.
+                    </div>
+                </div>
+
+                <!-- C -->
+                <div class="glossary-term" data-letter="C" id="cashflow">
+                    <h3>💰 Cashflow</h3>
+                    <div class="term-category">Rentabilité • Investissement</div>
+                    <p class="term-definition">
+                        Le cashflow est l'<strong>argent qui reste dans votre poche</strong> chaque mois après avoir
+                        payé
+                        toutes les charges (crédit, taxe foncière, charges de copropriété, etc.).
+                    </p>
+                    <div class="term-example">
+                        <strong>💡 Exemple concret :</strong><br>
+                        • Loyer perçu : 800€/mois<br>
+                        • Mensualité crédit : 600€<br>
+                        • Charges mensuelles : 150€<br>
+                        • <strong>Cashflow = 50€/mois</strong> (800 - 600 - 150)
+                    </div>
+                    <div class="term-tip">
+                        ✅ <strong>Bon à savoir :</strong> Un cashflow positif signifie que votre investissement ne vous
+                        coûte rien chaque mois. Un cashflow négatif signifie que vous devez compléter de votre poche.
+                    </div>
+                </div>
+
+                <div class="glossary-term" data-letter="C" id="capacite-emprunt">
+                    <h3>🏦 Capacité d'Emprunt</h3>
+                    <div class="term-category">Crédit • Financement</div>
+                    <p class="term-definition">
+                        La capacité d'emprunt est le <strong>montant maximum</strong> que vous pouvez emprunter auprès
+                        d'une banque,
+                        calculé en fonction de vos revenus et de votre taux d'endettement.
+                    </p>
+                    <div class="term-example">
+                        <strong>💡 Exemple concret :</strong><br>
+                        Avec un salaire net de 3 000€/mois et un taux d'endettement de 35%, vous pouvez emprunter
+                        environ 1 050€/mois (3 000€ × 35%). Sur 25 ans à 4%, cela représente environ 195 000€.
+                    </div>
+                    <div class="term-tip">
+                        📊 <strong>Règle des 35% :</strong> Les banques limitent généralement vos mensualités de crédit
+                        à 35% de vos revenus nets.
+                    </div>
+                </div>
+
+                <!-- D -->
+                <div class="glossary-term" data-letter="D" id="dpe">
+                    <h3>🌡️ DPE (Diagnostic de Performance Énergétique)</h3>
+                    <div class="term-category">Réglementation • Énergie</div>
+                    <p class="term-definition">
+                        Le DPE est un <strong>diagnostic obligatoire</strong> qui évalue la consommation énergétique
+                        d'un logement
+                        sur une échelle de A (excellent) à G (très mauvais). Il impacte la valeur et la possibilité de
+                        louer.
+                    </p>
+                    <div class="term-example">
+                        <strong>💡 Calendrier d'interdiction :</strong><br>
+                        • 2025 : Interdiction de louer les logements classés G<br>
+                        • 2028 : Interdiction pour les F<br>
+                        • 2034 : Interdiction pour les E
+                    </div>
+                    <div class="term-tip">
+                        ⚠️ <strong>Attention :</strong> Un bien classé F ou G (passoire thermique) peut se vendre 10 à
+                        20%
+                        moins cher. Utilisez cet argument pour négocier !
+                    </div>
+                </div>
+
+                <!-- F -->
+                <div class="glossary-term" data-letter="F" id="frais-notaire">
+                    <h3>📝 Frais de Notaire</h3>
+                    <div class="term-category">Achat • Frais</div>
+                    <p class="term-definition">
+                        Les frais de notaire sont les <strong>taxes et honoraires</strong> à payer lors de l'achat d'un
+                        bien immobilier.
+                        Ils représentent environ 7-8% du prix pour un bien ancien, et 2-3% pour un bien neuf.
+                    </p>
+                    <div class="term-example">
+                        <strong>💡 Exemple concret :</strong><br>
+                        • Bien ancien à 200 000€ : environ 15 000€ de frais de notaire (7,5%)<br>
+                        • Bien neuf à 200 000€ : environ 5 000€ de frais de notaire (2,5%)
+                    </div>
+                    <div class="term-tip">
+                        💡 <strong>Astuce :</strong> Les frais de notaire sont calculés sur le prix FAI (Frais d'Agence
+                        Inclus),
+                        pas sur le prix net vendeur.
+                    </div>
+                </div>
+
+                <!-- I -->
+                <div class="glossary-term" data-letter="I" id="ir">
+                    <h3>💼 IR (Impôt sur le Revenu)</h3>
+                    <div class="term-category">Fiscalité • Impôts</div>
+                    <p class="term-definition">
+                        L'Impôt sur le Revenu est l'<strong>impôt calculé sur vos revenus</strong> (salaires, revenus
+                        locatifs, etc.)
+                        selon un barème progressif par tranches.
+                    </p>
+                    <div class="term-example">
+                        <strong>💡 Barème 2024 :</strong><br>
+                        • Jusqu'à 10 777€ : 0%<br>
+                        • De 10 778€ à 27 478€ : 11%<br>
+                        • De 27 479€ à 78 570€ : 30%<br>
+                        • De 78 571€ à 168 994€ : 41%<br>
+                        • Au-delà : 45%
+                    </div>
+                </div>
+
+                <div class="glossary-term" data-letter="I" id="is">
+                    <h3>🏢 IS (Impôt sur les Sociétés)</h3>
+                    <div class="term-category">Fiscalité • SCI</div>
+                    <p class="term-definition">
+                        L'Impôt sur les Sociétés est l'<strong>impôt payé par les sociétés</strong> sur leurs bénéfices.
+                        Pour une SCI à l'IS, le taux est de 15% jusqu'à 42 500€ de bénéfices, puis 25% au-delà.
+                    </p>
+                    <div class="term-example">
+                        <strong>💡 Exemple concret :</strong><br>
+                        Une SCI à l'IS avec 50 000€ de bénéfices paiera :<br>
+                        • 42 500€ × 15% = 6 375€<br>
+                        • 7 500€ × 25% = 1 875€<br>
+                        • <strong>Total IS = 8 250€</strong>
+                    </div>
+                    <div class="term-tip">
+                        ⚖️ <strong>SCI IR vs IS :</strong> L'IS permet l'amortissement mais les dividendes sont taxés à
+                        30%.
+                        L'IR est transparent fiscalement (imposition au niveau des associés).
+                    </div>
+                </div>
+
+                <!-- L -->
+                <div class="glossary-term" data-letter="L" id="lmnp">
+                    <h3>🛋️ LMNP (Loueur Meublé Non Professionnel)</h3>
+                    <div class="term-category">Fiscalité • Location Meublée</div>
+                    <p class="term-definition">
+                        Le LMNP est un <strong>statut fiscal avantageux</strong> pour la location meublée. Il permet de
+                        déduire
+                        les charges et l'amortissement, réduisant fortement l'impôt sur les revenus locatifs.
+                    </p>
+                    <div class="term-example">
+                        <strong>💡 Exemple concret :</strong><br>
+                        • Revenus locatifs : 12 000€/an<br>
+                        • Charges déductibles : 4 000€<br>
+                        • Amortissement : 6 000€<br>
+                        • <strong>Revenu imposable = 2 000€</strong> (au lieu de 12 000€)
+                    </div>
+                    <div class="term-tip">
+                        ✅ <strong>Avantages :</strong> Fiscalité très avantageuse, possibilité de récupérer la TVA sur
+                        le neuf,
+                        loyers plus élevés qu'en nu.
+                    </div>
+                </div>
+
+                <!-- M -->
+                <div class="glossary-term" data-letter="M" id="micro-foncier">
+                    <h3>🏠 Micro-Foncier</h3>
+                    <div class="term-category">Fiscalité • Location Nue</div>
+                    <p class="term-definition">
+                        Le micro-foncier est un <strong>régime fiscal simplifié</strong> pour la location nue (vide).
+                        Il applique un abattement forfaitaire de 30% sur vos revenus locatifs.
+                    </p>
+                    <div class="term-example">
+                        <strong>💡 Exemple concret :</strong><br>
+                        • Revenus locatifs : 10 000€/an<br>
+                        • Abattement 30% : -3 000€<br>
+                        • <strong>Revenu imposable = 7 000€</strong>
+                    </div>
+                    <div class="term-tip">
+                        📊 <strong>Limite :</strong> Le micro-foncier n'est possible que si vos revenus locatifs sont
+                        inférieurs à 15 000€/an. Au-delà, vous passez automatiquement au régime réel.
+                    </div>
+                </div>
+
+                <!-- P -->
+                <div class="glossary-term" data-letter="P" id="primo-accedant">
+                    <h3>🌟 Primo-Accédant</h3>
+                    <div class="term-category">Achat • Aides</div>
+                    <p class="term-definition">
+                        Un primo-accédant est une personne qui <strong>achète sa résidence principale pour la première
+                            fois</strong>,
+                        ou qui n'a pas été propriétaire de sa résidence principale depuis au moins 2 ans.
+                    </p>
+                    <div class="term-example">
+                        <strong>💡 Avantages :</strong><br>
+                        • Éligibilité au PTZ (Prêt à Taux Zéro)<br>
+                        • Exonération de taxe foncière possible (2 ans)<br>
+                        • Frais de garantie réduits
+                    </div>
+                </div>
+
+                <div class="glossary-term" data-letter="P" id="ptz">
+                    <h3>🎁 PTZ (Prêt à Taux Zéro)</h3>
+                    <div class="term-category">Aides • Financement</div>
+                    <p class="term-definition">
+                        Le PTZ est un <strong>prêt sans intérêts</strong> accordé par l'État pour aider les
+                        primo-accédants
+                        à acheter leur résidence principale. Le montant dépend de la zone géographique et des revenus.
+                    </p>
+                    <div class="term-example">
+                        <strong>💡 Exemple concret :</strong><br>
+                        Pour un couple avec 2 enfants en zone B1 :<br>
+                        • Plafond de revenus : 54 000€<br>
+                        • PTZ maximum : environ 40% du prix du bien neuf
+                    </div>
+                    <div class="term-tip">
+                        📍 <strong>Zones PTZ :</strong><br>
+                        • Zone A : Paris, Côte d'Azur (PTZ le plus élevé)<br>
+                        • Zone B1 : Grandes agglomérations<br>
+                        • Zone B2 : Villes moyennes<br>
+                        • Zone C : Reste du territoire
+                    </div>
+                </div>
+
+                <div class="glossary-term" data-letter="P" id="prelevements-sociaux">
+                    <h3>💸 Prélèvements Sociaux</h3>
+                    <div class="term-category">Fiscalité • Impôts</div>
+                    <p class="term-definition">
+                        Les prélèvements sociaux sont des <strong>cotisations obligatoires</strong> de 17,2% appliquées
+                        sur les revenus du patrimoine (revenus locatifs, plus-values immobilières, etc.).
+                    </p>
+                    <div class="term-example">
+                        <strong>💡 Exemple concret :</strong><br>
+                        • Revenus locatifs imposables : 10 000€<br>
+                        • Prélèvements sociaux (17,2%) : 1 720€<br>
+                        • À ajouter à l'impôt sur le revenu
+                    </div>
+                    <div class="term-tip">
+                        ⚠️ <strong>Important :</strong> Les prélèvements sociaux s'ajoutent à l'impôt sur le revenu.
+                        Ils sont dus même si vous n'êtes pas imposable à l'IR.
+                    </div>
+                </div>
+
+                <!-- R -->
+                <div class="glossary-term" data-letter="R" id="rentabilite-brute">
+                    <h3>📊 Rentabilité Brute</h3>
+                    <div class="term-category">Rentabilité • Investissement</div>
+                    <p class="term-definition">
+                        La rentabilité brute est le <strong>rapport entre les loyers annuels et le prix d'achat</strong>
+                        du bien, sans tenir compte des charges et des impôts.
+                    </p>
+                    <div class="term-example">
+                        <strong>💡 Calcul :</strong><br>
+                        Rentabilité brute = (Loyer annuel ÷ Prix total) × 100<br><br>
+                        <strong>Exemple :</strong><br>
+                        • Prix d'achat : 200 000€<br>
+                        • Loyer mensuel : 800€ (9 600€/an)<br>
+                        • <strong>Rentabilité brute = 4,8%</strong>
+                    </div>
+                    <div class="term-tip">
+                        📈 <strong>Fourchettes :</strong><br>
+                        • Moins de 3% : Faible<br>
+                        • 3-5% : Moyenne (grandes villes)<br>
+                        • 5-7% : Bonne<br>
+                        • Plus de 7% : Excellente (villes moyennes)
+                    </div>
+                </div>
+
+                <div class="glossary-term" data-letter="R" id="rentabilite-nette">
+                    <h3>📉 Rentabilité Nette</h3>
+                    <div class="term-category">Rentabilité • Investissement</div>
+                    <p class="term-definition">
+                        La rentabilité nette est le <strong>rendement réel</strong> après déduction de toutes les
+                        charges
+                        (taxe foncière, charges de copropriété, assurances) mais avant impôts.
+                    </p>
+                    <div class="term-example">
+                        <strong>💡 Calcul :</strong><br>
+                        Rentabilité nette = ((Loyer annuel - Charges) ÷ Prix total) × 100<br><br>
+                        <strong>Exemple :</strong><br>
+                        • Loyers annuels : 9 600€<br>
+                        • Charges annuelles : 2 000€<br>
+                        • Prix total : 200 000€<br>
+                        • <strong>Rentabilité nette = 3,8%</strong>
+                    </div>
+                </div>
+
+                <div class="glossary-term" data-letter="R" id="reel">
+                    <h3>📋 Régime Réel</h3>
+                    <div class="term-category">Fiscalité • Déclaration</div>
+                    <p class="term-definition">
+                        Le régime réel permet de <strong>déduire vos charges réelles</strong> (travaux, intérêts
+                        d'emprunt,
+                        taxe foncière, etc.) de vos revenus locatifs, au lieu d'un abattement forfaitaire.
+                    </p>
+                    <div class="term-example">
+                        <strong>💡 Quand choisir le réel ?</strong><br>
+                        Si vos charges réelles dépassent :<br>
+                        • 30% des loyers (location nue)<br>
+                        • 50% des loyers (location meublée)
+                    </div>
+                    <div class="term-tip">
+                        ✅ <strong>Avantage :</strong> En LMNP au réel, vous pouvez aussi déduire l'amortissement du
+                        bien,
+                        ce qui peut réduire votre impôt à zéro pendant plusieurs années.
+                    </div>
+                </div>
+
+                <div class="glossary-term" data-letter="R" id="rfr">
+                    <h3>💰 RFR (Revenu Fiscal de Référence)</h3>
+                    <div class="term-category">Fiscalité • Aides</div>
+                    <p class="term-definition">
+                        Le RFR est le <strong>revenu de référence</strong> utilisé par l'administration fiscale pour
+                        déterminer
+                        votre éligibilité aux aides (PTZ, MaPrimeRénov', etc.). Il figure sur votre avis d'imposition.
+                    </p>
+                    <div class="term-example">
+                        <strong>💡 Où le trouver ?</strong><br>
+                        Sur votre avis d'imposition, en première page, dans le cadre "Vos références".
+                        Il prend en compte tous vos revenus (salaires, revenus fonciers, etc.) avec certains
+                        abattements.
+                    </div>
+                </div>
+
+                <!-- S -->
+                <div class="glossary-term" data-letter="S" id="sci">
+                    <h3>🏢 SCI (Société Civile Immobilière)</h3>
+                    <div class="term-category">Structure • Investissement</div>
+                    <p class="term-definition">
+                        La SCI est une <strong>société créée pour détenir et gérer un patrimoine immobilier</strong>.
+                        Elle permet d'acheter à plusieurs et facilite la transmission du patrimoine.
+                    </p>
+                    <div class="term-example">
+                        <strong>💡 Avantages :</strong><br>
+                        • Achat en famille ou entre amis<br>
+                        • Transmission facilitée (donation de parts)<br>
+                        • Choix entre IR ou IS pour la fiscalité<br>
+                        • Protection du patrimoine personnel
+                    </div>
+                    <div class="term-tip">
+                        ⚖️ <strong>SCI à l'IR vs SCI à l'IS :</strong><br>
+                        • IR : Transparence fiscale, pas d'amortissement<br>
+                        • IS : Amortissement possible, mais dividendes taxés à 30%
+                    </div>
+                </div>
+
+                <!-- T -->
+                <div class="glossary-term" data-letter="T" id="taux-endettement">
+                    <h3>📊 Taux d'Endettement</h3>
+                    <div class="term-category">Crédit • Financement</div>
+                    <p class="term-definition">
+                        Le taux d'endettement est le <strong>pourcentage de vos revenus</strong> consacré au
+                        remboursement
+                        de vos crédits. Les banques limitent généralement ce taux à 35%.
+                    </p>
+                    <div class="term-example">
+                        <strong>💡 Calcul :</strong><br>
+                        Taux d'endettement = (Mensualités de crédit ÷ Revenus nets) × 100<br><br>
+                        <strong>Exemple :</strong><br>
+                        • Revenus nets : 3 000€/mois<br>
+                        • Mensualité crédit : 1 000€<br>
+                        • <strong>Taux d'endettement = 33,3%</strong> ✅
+                    </div>
+                    <div class="term-tip">
+                        ⚠️ <strong>Règle des 35% :</strong> Depuis 2022, le HCSF (Haut Conseil de Stabilité Financière)
+                        impose un taux maximum de 35% pour protéger les emprunteurs.
+                    </div>
+                </div>
+
+                <div class="glossary-term" data-letter="T" id="tmi">
+                    <h3>💼 TMI (Tranche Marginale d'Imposition)</h3>
+                    <div class="term-category">Fiscalité • Impôts</div>
+                    <p class="term-definition">
+                        La TMI est le <strong>taux d'imposition</strong> appliqué à la dernière tranche de vos revenus.
+                        C'est ce taux qui s'appliquera à vos revenus locatifs supplémentaires.
+                    </p>
+                    <div class="term-example">
+                        <strong>💡 Exemple concret :</strong><br>
+                        Si vous gagnez 40 000€/an, votre TMI est de 30%.<br>
+                        Cela signifie que chaque euro de revenu locatif supplémentaire sera imposé à 30%
+                        (+ 17,2% de prélèvements sociaux).
+                    </div>
+                    <div class="term-tip">
+                        📊 <strong>Barème 2024 :</strong> 0%, 11%, 30%, 41%, 45%<br>
+                        Votre TMI dépend de votre revenu imposable total.
+                    </div>
+                </div>
+
+                <div class="glossary-term" data-letter="T" id="tri">
+                    <h3>📈 TRI (Taux de Rentabilité Interne)</h3>
+                    <div class="term-category">Rentabilité • Investissement</div>
+                    <p class="term-definition">
+                        Le TRI est le <strong>vrai rendement annuel</strong> de votre investissement, en tenant compte
+                        de tous les flux financiers (apport initial, loyers, charges, revente).
+                    </p>
+                    <div class="term-example">
+                        <strong>💡 Pourquoi c'est important ?</strong><br>
+                        Le TRI permet de comparer différents investissements entre eux. Un TRI de 8% signifie que
+                        votre argent rapporte 8% par an, ce qui est mieux qu'un livret A à 3%.
+                    </div>
+                    <div class="term-tip">
+                        📊 <strong>Interprétation :</strong><br>
+                        • TRI &lt; 3% : Faible, mieux vaut un placement sans risque<br>
+                        • TRI 3-6% : Correct<br>
+                        • TRI 6-10% : Bon investissement<br>
+                        • TRI &gt; 10% : Excellent
+                    </div>
+                </div>
+
+                <div class="glossary-term" data-letter="T" id="taxe-fonciere">
+                    <h3>🏛️ Taxe Foncière</h3>
+                    <div class="term-category">Impôts • Charges</div>
+                    <p class="term-definition">
+                        La taxe foncière est un <strong>impôt local annuel</strong> payé par le propriétaire d'un bien
+                        immobilier.
+                        Son montant varie selon la commune et la valeur cadastrale du bien.
+                    </p>
+                    <div class="term-example">
+                        <strong>💡 Montant moyen :</strong><br>
+                        • Appartement : 500 à 1 500€/an<br>
+                        • Maison : 800 à 2 000€/an<br>
+                        (Très variable selon les villes)
+                    </div>
+                    <div class="term-tip">
+                        ✅ <strong>Déductible :</strong> La taxe foncière est déductible de vos revenus locatifs
+                        en régime réel.
+                    </div>
+                </div>
+
+                <div class="glossary-term" data-letter="T" id="tva">
+                    <h3>💳 TVA Réduite (5,5%)</h3>
+                    <div class="term-category">Travaux • Aides</div>
+                    <p class="term-definition">
+                        La TVA à taux réduit de 5,5% s'applique aux <strong>travaux de rénovation énergétique</strong>
+                        dans les logements de plus de 2 ans.
+                    </p>
+                    <div class="term-example">
+                        <strong>💡 Exemple concret :</strong><br>
+                        • Travaux d'isolation : 10 000€<br>
+                        • TVA normale (20%) : 2 000€<br>
+                        • TVA réduite (5,5%) : 550€<br>
+                        • <strong>Économie = 1 450€</strong>
+                    </div>
+                    <div class="term-tip">
+                        ✅ <strong>Travaux éligibles :</strong> Isolation, chauffage, fenêtres double vitrage,
+                        pompe à chaleur, etc.
+                    </div>
+                </div>
+
+                <!-- V -->
+                <div class="glossary-term" data-letter="V" id="vacance-locative">
+                    <h3>🏚️ Vacance Locative</h3>
+                    <div class="term-category">Rentabilité • Gestion</div>
+                    <p class="term-definition">
+                        La vacance locative est la <strong>période sans locataire</strong> pendant laquelle vous ne
+                        percevez
+                        pas de loyer. Il faut l'anticiper dans vos calculs de rentabilité.
+                    </p>
+                    <div class="term-example">
+                        <strong>💡 Taux moyens :</strong><br>
+                        • Paris : 2-3%<br>
+                        • Grandes villes : 4-5%<br>
+                        • Villes moyennes : 6-8%<br>
+                        • Zones rurales : 10-15%
+                    </div>
+                    <div class="term-tip">
+                        📊 <strong>Impact :</strong> Un taux de vacance de 5% signifie que vous perdez environ
+                        18 jours de loyer par an (365 jours × 5%).
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- No Results Message -->
+            <div id="no-results" class="empty-state" style="display: none;">
+                <p>Aucun terme ne correspond à votre recherche.</p>
+            </div>
+
+        </div>
+    </main>
+
+
+    <script type="module" src="src/js/pages/glossaire.js"></script>
+</body>
+
+</html>

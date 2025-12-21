@@ -1,0 +1,13 @@
+/* ============================================
+   MAIN STYLESHEET - Imports all modules
+   ============================================ */
+
+/* Base styles (variables, reset, typography) */
+@import './modules/base.css';
+
+/* Accessibility styles (WCAG AA) */
+@import './modules/accessibility.css';
+
+/* Note: The original style.css content remains below for compatibility.
+   Future optimization: Extract components and utilities into separate modules.
+   This ensures no breaking changes while allowing gradual migration. */
