@@ -1116,7 +1116,6 @@ input:focus {
 @media (min-width: 901px) {
     .container {
         max-width: 1400px;
-        /* Give more total room */
     }
 
     .app-wrapper {
@@ -1124,20 +1123,17 @@ input:focus {
         flex-direction: row;
         align-items: flex-start;
         flex-wrap: nowrap;
-        /* Force side-by-side */
+        gap: 16px;
     }
 
     .calculator-card {
-        max-width: 900px;
-        /* Prevent it from taking too much horizontal space */
+        max-width: 800px;
         flex: 1;
     }
 
     .saved-projects-sidebar {
-        width: 350px;
+        width: 300px;
         flex-shrink: 0;
-        /* Don't let the sidebar shrink */
-        margin-left: 24px;
     }
 
     .mobile-menu-toggle,
