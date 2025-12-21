@@ -734,45 +734,45 @@
                     </button>
                 </div>
             </div>
-        </div>
 
-        <aside class="saved-projects-sidebar">
-            <div class="sidebar-header">
-                <h2>Mes Dossiers</h2>
-                <p>Gérez vos projets immobiliers</p>
-                <div class="sidebar-controls" style="margin-top: 10px; display: flex; gap: 8px;">
-                    <select id="sort-projects" class="form-select" style="padding: 6px; font-size: 0.85rem;"
-                        aria-label="Trier les dossiers">
-                        <option value="date_desc">Plus récents</option>
-                        <option value="date_asc">Plus anciens</option>
-                        <option value="name_asc">Nom (A-Z)</option>
-                        <option value="name_desc">Nom (Z-A)</option>
-                    </select>
+            <aside class="saved-projects-sidebar">
+                <div class="sidebar-header">
+                    <h2>Mes Dossiers</h2>
+                    <p>Gérez vos projets immobiliers</p>
+                    <div class="sidebar-controls" style="margin-top: 10px; display: flex; gap: 8px;">
+                        <select id="sort-projects" class="form-select" style="padding: 6px; font-size: 0.85rem;"
+                            aria-label="Trier les dossiers">
+                            <option value="date_desc">Plus récents</option>
+                            <option value="date_asc">Plus anciens</option>
+                            <option value="name_asc">Nom (A-Z)</option>
+                            <option value="name_desc">Nom (Z-A)</option>
+                        </select>
+                    </div>
+                    <button id="new-project-btn" class="new-project-btn"
+                        aria-label="Créer un nouveau dossier de projet">
+                        + Nouveau Dossier
+                    </button>
                 </div>
-                <button id="new-project-btn" class="new-project-btn" aria-label="Créer un nouveau dossier de projet">
-                    + Nouveau Dossier
-                </button>
-            </div>
-            <div id="current-project-display" class="project-badge" style="display:none; margin-bottom: 10px;">
-                <!-- Current Project Name -->
-            </div>
-            <div id="saved-list" class="saved-list">
-                <!-- Saved items will be injected here -->
-                <div class="empty-state">
-                    <p>Aucun projet sauvegardé</p>
+                <div id="current-project-display" class="project-badge" style="display:none; margin-bottom: 10px;">
+                    <!-- Current Project Name -->
                 </div>
-            </div>
+                <div id="saved-list" class="saved-list">
+                    <!-- Saved items will be injected here -->
+                    <div class="empty-state">
+                        <p>Aucun projet sauvegardé</p>
+                    </div>
+                </div>
 
-            <!-- Legal Link -->
-            <div class="sidebar-legal-link">
-                <button id="open-legal-modal" class="legal-link-btn" aria-label="Voir les mentions légales">
-                    ⚖️ Mentions légales
-                </button>
-            </div>
+                <!-- Legal Link -->
+                <div class="sidebar-legal-link">
+                    <button id="open-legal-modal" class="legal-link-btn" aria-label="Voir les mentions légales">
+                        ⚖️ Mentions légales
+                    </button>
+                </div>
 
-            <!-- Pub Sidebar -->
-            <div class="ad-container ad-sidebar"></div>
-        </aside>
+                <!-- Pub Sidebar -->
+                <div class="ad-container ad-sidebar"></div>
+            </aside>
         </div>
     </main>
 
