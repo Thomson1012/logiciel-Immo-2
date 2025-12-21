@@ -20,8 +20,6 @@ jest.mock('../../utils/security.js', () => ({
             }),
             remove: jest.fn((key) => {
                 delete mockStorage[key];
-                // Also remove from localStorage since getCurrentProjectId uses it directly
-                localStorage.removeItem(key);
                 return true;
             })
         },

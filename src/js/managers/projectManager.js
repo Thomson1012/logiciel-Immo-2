@@ -20,19 +20,10 @@ export const ProjectManager = {
     // Each page load gets its own module instance, so cache doesn't help cross-page
 
     getAllProjects() {
-        // Always read from storage to get fresh data
         if (Security && Security.storage.isAvailable()) {
             return Security.storage.get(this.STORAGE_KEY) || [];
-        } else {
-            // Fallback for older browsers
-            try {
-                const projects = localStorage.getItem(this.STORAGE_KEY);
-                return projects ? JSON.parse(projects) : [];
-            } catch (e) {
-                console.error('Error loading projects', e);
-                return [];
-            }
         }
+        return [];
     },
 
     saveAllProjects(projects) {
@@ -42,35 +33,12 @@ export const ProjectManager = {
             return false;
         }
 
-        // Validate each project has required fields
-        const validProjects = projects.filter(p => {
-            if (!p || typeof p !== 'object') return false;
-            if (!p.id || !p.name) return false;
-            return true;
-        });
-
-
-        if (validProjects.length !== projects.length) {
-            console.warn('ProjectManager: Some invalid projects were filtered out');
-        }
+        const validProjects = projects.filter(p => p && typeof p === 'object' && p.id && p.name);
 
         if (Security && Security.storage.isAvailable()) {
-            try {
-                Security.storage.set(this.STORAGE_KEY, validProjects);
-                return true;
-            } catch (e) {
-                return this._handleStorageError(e);
-            }
-        } else {
-            // Fallback
-            try {
-                const dataString = JSON.stringify(validProjects);
-                localStorage.setItem(this.STORAGE_KEY, dataString);
-                return true;
-            } catch (e) {
-                return this._handleStorageError(e);
-            }
+            return Security.storage.set(this.STORAGE_KEY, validProjects);
         }
+        return false;
     },
 
     /**
@@ -181,8 +149,6 @@ export const ProjectManager = {
         if (this.getCurrentProjectId() === id) {
             if (Security && Security.storage.isAvailable()) {
                 Security.storage.remove(this.CURRENT_PROJECT_KEY);
-            } else {
-                localStorage.removeItem(this.CURRENT_PROJECT_KEY);
             }
         }
         return projectToDelete;
@@ -199,13 +165,18 @@ export const ProjectManager = {
     // --- Active Project Context ---
 
     setCurrentProject(id) {
-        localStorage.setItem(this.CURRENT_PROJECT_KEY, id);
+        if (Security && Security.storage.isAvailable()) {
+            Security.storage.set(this.CURRENT_PROJECT_KEY, id);
+        }
         // Dispatch event so other components can react if needed
         window.dispatchEvent(new CustomEvent('projectChanged', { detail: { id } }));
     },
 
     getCurrentProjectId() {
-        return localStorage.getItem(this.CURRENT_PROJECT_KEY);
+        if (Security && Security.storage.isAvailable()) {
+            return Security.storage.get(this.CURRENT_PROJECT_KEY);
+        }
+        return null;
     },
 
     getCurrentProject() {
@@ -338,11 +309,8 @@ export const ProjectManager = {
 
         // Get trash
         let trash = [];
-        try {
-            const trashData = localStorage.getItem(this.TRASH_KEY);
-            trash = trashData ? JSON.parse(trashData) : [];
-        } catch (e) {
-            console.error('Error loading trash', e);
+        if (Security && Security.storage.isAvailable()) {
+            trash = Security.storage.get(this.TRASH_KEY) || [];
         }
 
         // Add to trash
@@ -354,7 +322,9 @@ export const ProjectManager = {
         trash = trash.filter(p => new Date(p.deletedAt) > cutoffDate);
 
         // Save trash
-        localStorage.setItem(this.TRASH_KEY, JSON.stringify(trash));
+        if (Security && Security.storage.isAvailable()) {
+            Security.storage.set(this.TRASH_KEY, trash);
+        }
 
         // Remove from active projects
         let projects = this.getAllProjects();
@@ -363,7 +333,9 @@ export const ProjectManager = {
 
         // Clear current project if it was the deleted one
         if (this.getCurrentProjectId() === id) {
-            localStorage.removeItem(this.CURRENT_PROJECT_KEY);
+            if (Security && Security.storage.isAvailable()) {
+                Security.storage.remove(this.CURRENT_PROJECT_KEY);
+            }
         }
 
         if (UI && UI.showToast) {
@@ -378,11 +350,8 @@ export const ProjectManager = {
      */
     restoreFromTrash(id) {
         let trash = [];
-        try {
-            const trashData = localStorage.getItem(this.TRASH_KEY);
-            trash = trashData ? JSON.parse(trashData) : [];
-        } catch (e) {
-            return null;
+        if (Security && Security.storage.isAvailable()) {
+            trash = Security.storage.get(this.TRASH_KEY) || [];
         }
 
         const project = trash.find(p => p.id === id);
@@ -390,7 +359,9 @@ export const ProjectManager = {
 
         // Remove from trash
         trash = trash.filter(p => p.id !== id);
-        localStorage.setItem(this.TRASH_KEY, JSON.stringify(trash));
+        if (Security && Security.storage.isAvailable()) {
+            Security.storage.set(this.TRASH_KEY, trash);
+        }
 
         // Remove deletion metadata
         delete project.deletedAt;
@@ -411,12 +382,10 @@ export const ProjectManager = {
      * Get all trashed projects
      */
     getTrashedProjects() {
-        try {
-            const trashData = localStorage.getItem(this.TRASH_KEY);
-            return trashData ? JSON.parse(trashData) : [];
-        } catch (e) {
-            return [];
+        if (Security && Security.storage.isAvailable()) {
+            return Security.storage.get(this.TRASH_KEY) || [];
         }
+        return [];
     },
 
     /**
@@ -425,7 +394,9 @@ export const ProjectManager = {
     permanentlyDelete(id) {
         let trash = this.getTrashedProjects();
         trash = trash.filter(p => p.id !== id);
-        localStorage.setItem(this.TRASH_KEY, JSON.stringify(trash));
+        if (Security && Security.storage.isAvailable()) {
+            Security.storage.set(this.TRASH_KEY, trash);
+        }
 
         if (UI && UI.showToast) {
             UI.showToast('Projet supprimé définitivement', 'success');
@@ -436,7 +407,9 @@ export const ProjectManager = {
      * Empty entire trash
      */
     emptyTrash() {
-        localStorage.removeItem(this.TRASH_KEY);
+        if (Security && Security.storage.isAvailable()) {
+            Security.storage.remove(this.TRASH_KEY);
+        }
         if (UI && UI.showToast) {
             UI.showToast('Corbeille vidée', 'success');
         }
@@ -449,12 +422,14 @@ export const ProjectManager = {
      */
     setupAutoBackup() {
         const checkBackup = () => {
-            const lastBackup = localStorage.getItem(this.LAST_BACKUP_KEY);
-            const now = Date.now();
+            if (Security && Security.storage.isAvailable()) {
+                const lastBackup = Security.storage.get(this.LAST_BACKUP_KEY);
+                const now = Date.now();
 
-            if (!lastBackup || (now - parseInt(lastBackup)) > this.BACKUP_INTERVAL) {
-                this.createAutoBackup();
-                localStorage.setItem(this.LAST_BACKUP_KEY, now.toString());
+                if (!lastBackup || (now - parseInt(lastBackup)) > this.BACKUP_INTERVAL) {
+                    this.createAutoBackup();
+                    Security.storage.set(this.LAST_BACKUP_KEY, now.toString());
+                }
             }
         };
 
@@ -475,11 +450,8 @@ export const ProjectManager = {
             projects: projects
         };
 
-        try {
-            localStorage.setItem(this.BACKUP_KEY, JSON.stringify(backup));
-            console.log('Auto-backup created:', backup.timestamp);
-        } catch (e) {
-            console.error('Auto-backup failed', e);
+        if (Security && Security.storage.isAvailable()) {
+            Security.storage.set(this.BACKUP_KEY, backup);
         }
     },
 
@@ -487,16 +459,15 @@ export const ProjectManager = {
      * Restore from last backup
      */
     restoreFromBackup() {
-        try {
-            const backupData = localStorage.getItem(this.BACKUP_KEY);
-            if (!backupData) {
+        if (Security && Security.storage.isAvailable()) {
+            const backup = Security.storage.get(this.BACKUP_KEY);
+            if (!backup) {
                 if (UI && UI.showToast) {
                     UI.showToast('Aucune sauvegarde disponible', 'warning');
                 }
                 return false;
             }
 
-            const backup = JSON.parse(backupData);
             const confirmed = confirm(
                 `Restaurer la sauvegarde du ${new Date(backup.timestamp).toLocaleString('fr-FR')} ?\n\n` +
                 `Cela remplacera vos projets actuels.`
@@ -513,10 +484,6 @@ export const ProjectManager = {
                 }
                 return true;
             }
-        } catch (e) {
-            if (UI && UI.showToast) {
-                UI.showToast('Erreur lors de la restauration', 'error');
-            }
         }
         return false;
     },
@@ -525,21 +492,19 @@ export const ProjectManager = {
      * Get last backup info
      */
     getLastBackupInfo() {
-        try {
-            const backupData = localStorage.getItem(this.BACKUP_KEY);
-            const lastBackupTime = localStorage.getItem(this.LAST_BACKUP_KEY);
+        if (Security && Security.storage.isAvailable()) {
+            const backup = Security.storage.get(this.BACKUP_KEY);
+            const lastBackupTime = Security.storage.get(this.LAST_BACKUP_KEY);
 
-            if (!backupData) return null;
+            if (!backup) return null;
 
-            const backup = JSON.parse(backupData);
             return {
                 timestamp: backup.timestamp,
                 projectsCount: backup.projects.length,
                 lastBackupTime: lastBackupTime ? new Date(parseInt(lastBackupTime)) : null
             };
-        } catch (e) {
-            return null;
         }
+        return null;
     },
 
     // --- Tags and Categories ---
