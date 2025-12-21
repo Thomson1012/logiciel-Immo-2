@@ -1117,13 +1117,11 @@ input:focus {
     .app-wrapper {
         display: flex;
         flex-direction: row;
+        align-items: flex-start;
     }
 
     .saved-projects-sidebar {
-        order: -1;
-        /* Move to the left */
-        margin-right: 24px;
-        /* Space between sidebar and main content */
+        margin-left: 24px;
     }
 
     .mobile-menu-toggle,
