@@ -532,8 +532,6 @@ function initCapacityForm() {
             const incomeVal = Security.validateNumber(document.getElementById('income').value, { required: true, min: LIMITS.INCOME.MIN, max: LIMITS.INCOME.MAX });
             const expensesVal = Security.validateNumber(document.getElementById('expenses').value, { required: false, min: LIMITS.EXPENSES.MIN, max: LIMITS.EXPENSES.MAX });
             const rateVal = Security.validateNumber(document.getElementById('capacity-rate').value, { required: true, min: CONSTANTS.VALIDATION.CREDIT.RATE.MIN });
-            const yearsVal = Security.validateNumber(document.getElementById('capacity-years').value, { required: true, min: LIMITS.DEBT_RATIO.MIN }); // Error in original code: years validation used wrong constant potentially
-            // Wait, years limits are in CREDIT usually
             const yearsValCorrect = Security.validateNumber(document.getElementById('capacity-years').value, { required: true, min: CONSTANTS.VALIDATION.CREDIT.YEARS.MIN, max: CONSTANTS.VALIDATION.CREDIT.YEARS.MAX });
             const debtRatioVal = Security.validateNumber(document.getElementById('debt-ratio').value, { required: true, min: LIMITS.DEBT_RATIO.MIN, max: LIMITS.DEBT_RATIO.MAX });
 
