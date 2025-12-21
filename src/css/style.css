@@ -558,15 +558,17 @@ input:focus {
    =================================================================== */
 
 .mode-toggle-container {
-    position: absolute;
-    top: 20px;
-    right: 20px;
+    position: relative;
+    top: 0;
+    right: 0;
     display: flex;
     flex-direction: column;
-    align-items: flex-end;
+    align-items: flex-start;
+    /* Aligne avec les boutons */
     gap: 4px;
     padding: 0;
-    margin-top: 0;
+    margin-bottom: 8px;
+    /* Espace avant les boutons */
     background: transparent;
     border: none;
     z-index: 100;

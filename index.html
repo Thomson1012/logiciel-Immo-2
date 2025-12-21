@@ -83,6 +83,19 @@
                             <p>Vos calculs financiers en un instant</p>
                         </div>
                         <div style="display: flex; flex-direction: column; align-items: flex-start; gap: 8px;">
+                            <!-- Mode Toggle: Débutant/Avancé -->
+                            <div class="mode-toggle-container">
+                                <label class="mode-toggle-label">
+                                    <span class="mode-label-text">Mode Débutant</span>
+                                    <input type="checkbox" id="mode-toggle" class="mode-toggle-input"
+                                        aria-label="Basculer entre mode débutant et avancé">
+                                    <span class="mode-toggle-slider"></span>
+                                    <span class="mode-label-text">Mode Avancé</span>
+                                </label>
+                                <p class="mode-description">
+                                    <span id="mode-description-text">Interface simplifiée avec valeurs par défaut</span>
+                                </p>
+                            </div>
                             <div style="display: flex; gap: 8px;">
                                 <a href="aides.html" class="nav-link-btn"
                                     aria-label="Accéder à la page des aides de l'État">Aides de l'État</a>
@@ -131,19 +144,6 @@
                         </div>
                     </div>
 
-                    <!-- Mode Toggle: Débutant/Avancé -->
-                    <div class="mode-toggle-container">
-                        <label class="mode-toggle-label">
-                            <span class="mode-label-text">Mode Débutant</span>
-                            <input type="checkbox" id="mode-toggle" class="mode-toggle-input"
-                                aria-label="Basculer entre mode débutant et avancé">
-                            <span class="mode-toggle-slider"></span>
-                            <span class="mode-label-text">Mode Avancé</span>
-                        </label>
-                        <p class="mode-description">
-                            <span id="mode-description-text">Interface simplifiée avec valeurs par défaut</span>
-                        </p>
-                    </div>
                 </header>
 
                 <div class="tabs" role="tablist" aria-label="Sélection du type de simulation">
