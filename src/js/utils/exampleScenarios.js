@@ -163,6 +163,25 @@ export class ExampleLoader {
         if (window.UI) {
             window.UI.showToast(`Exemple "${scenario.name}" chargé`, 'success');
         }
+
+        // Déclencher automatiquement le calcul en soumettant le formulaire
+        const formIds = {
+            'credit': 'loan-form',
+            'profit': 'profit-form',
+            'capacity': 'capacity-form'
+        };
+
+        const formId = formIds[type];
+        if (formId) {
+            const form = document.getElementById(formId);
+            if (form) {
+                // Soumettre le formulaire automatiquement après un court délai
+                // pour s'assurer que tous les événements ont été traités
+                setTimeout(() => {
+                    form.requestSubmit();
+                }, 100);
+            }
+        }
     }
 
     /**
